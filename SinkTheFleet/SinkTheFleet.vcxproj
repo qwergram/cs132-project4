@@ -146,6 +146,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="fleet.cpp" />
+    <ClCompile Include="safeio.cpp" />
+    <ClCompile Include="SinkTheFleet.cpp" />
+    <ClCompile Include="TextGraphics.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="fleet.h" />
+    <ClInclude Include="safeio.h" />
+    <ClInclude Include="textGraphics.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
