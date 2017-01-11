@@ -104,26 +104,32 @@ void allocMem(Player players[], char size)
 	{
 		for (short playerIndex = 0; playerIndex < NUMPLAYERS; ++playerIndex)
 		{
+			// Setting the gameGride to a nullptr and then to an array (8 or 10) of ships
 			players[playerIndex].m_gameGrid[0] = nullptr;
 			players[playerIndex].m_gameGrid[0] = new Ship*[numberOfRows];
 			players[playerIndex].m_gameGrid[1] = nullptr;
 			players[playerIndex].m_gameGrid[1] = new Ship*[numberOfRows];
+			// iterate over all the rows
 			for (short rowIndex = 0; rowIndex < numberOfRows; ++rowIndex)
 			{
 				//-------------------------------------------------
 				//	your code goes here ...
 				// set the pointers to NULL, then allocate the
 				// memory for each row in each grid
+				
 
+				// need to create an empty array in each row for each column
 
 				//--------------------------------------------------
+				
+				// iterate over the columns and set them as no ship spots
 				for (short columnIndex = 0; columnIndex < numberOfCols; ++columnIndex)
 				{
 					players[playerIndex].m_gameGrid[0][rowIndex][columnIndex] = NOSHIP;
 					players[playerIndex].m_gameGrid[1][rowIndex][columnIndex] = NOSHIP;
-				} // end for k
-			} // end for j
-		} // end for i
+				} // end for columns
+			} // end for rows
+		} // end for player
 	}
 	catch (exception e)
 	{
