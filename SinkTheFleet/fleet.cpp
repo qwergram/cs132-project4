@@ -102,13 +102,13 @@ void allocMem(Player players[], char size)
 
 	try
 	{
-		for (short i = 0; i < NUMPLAYERS; ++i)
+		for (short playerIndex = 0; playerIndex < NUMPLAYERS; ++playerIndex)
 		{
-			players[i].m_gameGrid[0] = nullptr;
-			players[i].m_gameGrid[0] = new Ship*[numberOfRows];
-			players[i].m_gameGrid[1] = nullptr;
-			players[i].m_gameGrid[1] = new Ship*[numberOfRows];
-			for (short j = 0; j < numberOfRows; ++j)
+			players[playerIndex].m_gameGrid[0] = nullptr;
+			players[playerIndex].m_gameGrid[0] = new Ship*[numberOfRows];
+			players[playerIndex].m_gameGrid[1] = nullptr;
+			players[playerIndex].m_gameGrid[1] = new Ship*[numberOfRows];
+			for (short rowIndex = 0; rowIndex < numberOfRows; ++rowIndex)
 			{
 				//-------------------------------------------------
 				//	your code goes here ...
@@ -117,10 +117,10 @@ void allocMem(Player players[], char size)
 
 
 				//--------------------------------------------------
-				for (short k = 0; k < numberOfCols; ++k)
+				for (short columnIndex = 0; columnIndex < numberOfCols; ++columnIndex)
 				{
-					players[i].m_gameGrid[0][j][k] = NOSHIP;
-					players[i].m_gameGrid[1][j][k] = NOSHIP;
+					players[playerIndex].m_gameGrid[0][rowIndex][columnIndex] = NOSHIP;
+					players[playerIndex].m_gameGrid[1][rowIndex][columnIndex] = NOSHIP;
 				} // end for k
 			} // end for j
 		} // end for i
