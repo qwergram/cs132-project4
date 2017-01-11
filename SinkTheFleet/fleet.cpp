@@ -310,8 +310,8 @@ void printGrid(ostream& sout, Ship** grid, char size)
 //---------------------------------------------------------------------------------
 void initializePlayer(Player* playerPtr)
 {
-	for (short i = 0; i < SHIP_SIZE_ARRAYSIZE; i++)
-		setShipInfo(playerPtr->m_ships + i, static_cast<Ship>(i));
+	for (short shipIndex = 0; shipIndex < SHIP_SIZE_ARRAYSIZE; shipIndex++)
+		setShipInfo(playerPtr->m_ships + shipIndex, static_cast<Ship>(shipIndex));
 
 	playerPtr->m_piecesLeft = TOTALPIECES;
 }
@@ -353,33 +353,33 @@ void initializePlayer(Player* playerPtr)
 //		9/12/06 PB comleted v 0.5
 //     
 //---------------------------------------------------------------------------------
-void setships(Player players[], char size, short whichPlayer)
+void setShips(Player players[], char size, short whichPlayer)
 {
 	char input = 'V';
 	char ok = 'Y';
 	char save = 'N';
 	ostringstream outSStream;
 	Cell location = { 0, 0 };
-	for (short j = 1; j < SHIP_SIZE_ARRAYSIZE; j++)
+	for (short shipIndex = 1; shipIndex < SHIP_SIZE_ARRAYSIZE; shipIndex++)
 	{
 		system("cls");
 		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
 		outSStream.str("");
 		outSStream << "Player " << whichPlayer + 1 << " Enter "
-			<< shipNames[j] << " orientation";
+			<< shipNames[shipIndex] << " orientation";
 		input = safeChoice(outSStream.str(), 'V', 'H');
-		players[whichPlayer].m_ships[j].m_orientation
+		players[whichPlayer].m_ships[shipIndex].m_orientation
 			= (input == 'V') ? VERTICAL : HORIZONTAL;
-		cout << "Player " << whichPlayer + 1 << " Enter " << shipNames[j] <<
+		cout << "Player " << whichPlayer + 1 << " Enter " << shipNames[shipIndex] <<
 			" bow coordinates <row letter><col #>: ";
-		players[whichPlayer].m_ships[j].m_bowLocation = getCoord(cin, size);
+		players[whichPlayer].m_ships[shipIndex].m_bowLocation = getCoord(cin, size);
 
 		// if ok
-		if (!validLocation(players[whichPlayer], j, size))
+		if (!validLocation(players[whichPlayer], shipIndex, size))
 		{
 			cout << "invalid location. Press <enter>";
 			cin.get();
-			j--; // redo
+			shipIndex--; // redo
 			continue;
 		}
 		// your code goes here ...
