@@ -1,6 +1,6 @@
 # Sink The Fleet (A Battleship Clone)
 EDCC CS132 | [Norton Pengra](http://github.com/qwergram) & 
-[]() 
+[Tabitha Roemish](#) 
 
 ## Compliation Environments
 <table>
