@@ -272,8 +272,8 @@ void printGrid(ostream& sout, Ship** grid, char size)
 	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
 
-	for (short j = 1; j <= numberOfCols; ++j)
-		sout << setw(3) << j;
+	for (short columnIndex = 1; columnIndex <= numberOfCols; ++columnIndex)
+		sout << setw(3) << columnIndex;
 	sout << endl;
 	// your code goes here ...
 	// use printShip for each element in the grid
