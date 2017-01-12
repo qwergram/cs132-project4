@@ -117,8 +117,8 @@ void allocMem(Player players[], char size)
 				// set the pointers to NULL, then allocate the
 				// memory for each row in each grid
 				
-				cout << "rowIndex: " << rowIndex << endl;
-				//players[playerIndex].m_gameGrid[0][rowIndex] = new 
+				players[playerIndex].m_gameGrid[0][rowIndex] = new Ship[numberOfCols];
+				players[playerIndex].m_gameGrid[1][rowIndex] = new Ship[numberOfCols];
 
 				// need to create an empty array in each row for each column
 
