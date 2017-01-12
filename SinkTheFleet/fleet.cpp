@@ -105,9 +105,9 @@ void allocMem(Player players[], char size)
 		for (short playerIndex = 0; playerIndex < NUMPLAYERS; ++playerIndex)
 		{
 			// Setting the gameGride to a nullptr and then to an array (8 or 10) of ships
-			players[playerIndex].m_gameGrid[0] = nullptr;
+			//players[playerIndex].m_gameGrid[0] = nullptr; // Do we really need these lines?
 			players[playerIndex].m_gameGrid[0] = new Ship*[numberOfRows];
-			players[playerIndex].m_gameGrid[1] = nullptr;
+			//players[playerIndex].m_gameGrid[1] = nullptr; // Do we really need these lines?
 			players[playerIndex].m_gameGrid[1] = new Ship*[numberOfRows];
 			// iterate over all the rows
 			for (short rowIndex = 0; rowIndex < numberOfRows; ++rowIndex)
@@ -117,6 +117,8 @@ void allocMem(Player players[], char size)
 				// set the pointers to NULL, then allocate the
 				// memory for each row in each grid
 				
+				cout << "rowIndex: " << rowIndex << endl;
+				//players[playerIndex].m_gameGrid[0][rowIndex] = new 
 
 				// need to create an empty array in each row for each column
 
