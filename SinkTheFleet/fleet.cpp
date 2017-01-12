@@ -644,7 +644,7 @@ void header(ostream& sout)
 	const string empty;
 	const string sink("SINK THE FLEET!");
 	// your name goes here!
-	const string by("Edmonds Community College CS 132");
+	const string by("By Norton Pengra & Tabitha Roemish");
 	boxTop(sout, BOXWIDTH);
 	boxLine(sout, empty, BOXWIDTH);
 	boxLine(sout, sink, BOXWIDTH, 'C');
