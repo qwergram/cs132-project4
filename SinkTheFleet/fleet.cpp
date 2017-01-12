@@ -62,7 +62,7 @@ const int TOTALPIECES = 17; // total pieces in all ships
 void setShipInfo(ShipInfo * shipInfoPtr, Ship name, Direction orientation,
 	unsigned short row, unsigned short col)
 {
-
+	// your code here
 }
 
 //---------------------------------------------------------------------------------
