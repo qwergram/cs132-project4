@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SinkTheFleet", "SinkTheFleet\SinkTheFleet.vcxproj", "{5376B209-0DA5-46A5-A887-D4C38232E5CB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SinkTheFleetTests", "SinkTheFleetTests\SinkTheFleetTests.vcxproj", "{1CC4FA9D-C776-40A8-B1C1-F1DF2F701CF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{5376B209-0DA5-46A5-A887-D4C38232E5CB}.Release|x64.Build.0 = Release|x64
 		{5376B209-0DA5-46A5-A887-D4C38232E5CB}.Release|x86.ActiveCfg = Release|Win32
 		{5376B209-0DA5-46A5-A887-D4C38232E5CB}.Release|x86.Build.0 = Release|Win32
+		{1CC4FA9D-C776-40A8-B1C1-F1DF2F701CF0}.Debug|x64.ActiveCfg = Debug|x64
+		{1CC4FA9D-C776-40A8-B1C1-F1DF2F701CF0}.Debug|x64.Build.0 = Debug|x64
+		{1CC4FA9D-C776-40A8-B1C1-F1DF2F701CF0}.Debug|x86.ActiveCfg = Debug|Win32
+		{1CC4FA9D-C776-40A8-B1C1-F1DF2F701CF0}.Debug|x86.Build.0 = Debug|Win32
+		{1CC4FA9D-C776-40A8-B1C1-F1DF2F701CF0}.Release|x64.ActiveCfg = Release|x64
+		{1CC4FA9D-C776-40A8-B1C1-F1DF2F701CF0}.Release|x64.Build.0 = Release|x64
+		{1CC4FA9D-C776-40A8-B1C1-F1DF2F701CF0}.Release|x86.ActiveCfg = Release|Win32
+		{1CC4FA9D-C776-40A8-B1C1-F1DF2F701CF0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

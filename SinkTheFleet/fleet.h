@@ -137,7 +137,7 @@ void saveGrid(Player players[], short whichPlayer, char size);
 bool getGrid(Player players[], short whichPlayer, char size, string fileName);
 
 // allows user to put ships in grid
-void setships(Player players[], char size, short whichPlayer);
+void setShips(Player players[], char size, short whichPlayer);
 
 // returns a cell with coordinates set by user
 Cell getCoord(istream& sin, char size);

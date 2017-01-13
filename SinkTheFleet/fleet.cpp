@@ -62,7 +62,7 @@ const int TOTALPIECES = 17; // total pieces in all ships
 void setShipInfo(ShipInfo * shipInfoPtr, Ship name, Direction orientation,
 	unsigned short row, unsigned short col)
 {
-
+	// your code here
 }
 
 //---------------------------------------------------------------------------------
@@ -102,28 +102,34 @@ void allocMem(Player players[], char size)
 
 	try
 	{
-		for (short i = 0; i < NUMPLAYERS; ++i)
+		for (short playerIndex = 0; playerIndex < NUMPLAYERS; ++playerIndex)
 		{
-			players[i].m_gameGrid[0] = nullptr;
-			players[i].m_gameGrid[0] = new Ship*[numberOfRows];
-			players[i].m_gameGrid[1] = nullptr;
-			players[i].m_gameGrid[1] = new Ship*[numberOfRows];
-			for (short j = 0; j < numberOfRows; ++j)
+			// Setting the gameGride to a nullptr and then to an array (8 or 10) of ships
+			players[playerIndex].m_gameGrid[0] = nullptr;
+			players[playerIndex].m_gameGrid[0] = new Ship*[numberOfRows];
+			players[playerIndex].m_gameGrid[1] = nullptr;
+			players[playerIndex].m_gameGrid[1] = new Ship*[numberOfRows];
+			// iterate over all the rows
+			for (short rowIndex = 0; rowIndex < numberOfRows; ++rowIndex)
 			{
 				//-------------------------------------------------
 				//	your code goes here ...
 				// set the pointers to NULL, then allocate the
 				// memory for each row in each grid
+				
 
+				// need to create an empty array in each row for each column
 
 				//--------------------------------------------------
-				for (short k = 0; k < numberOfCols; ++k)
+				
+				// iterate over the columns and set them as no ship spots
+				for (short columnIndex = 0; columnIndex < numberOfCols; ++columnIndex)
 				{
-					players[i].m_gameGrid[0][j][k] = NOSHIP;
-					players[i].m_gameGrid[1][j][k] = NOSHIP;
-				} // end for k
-			} // end for j
-		} // end for i
+					players[playerIndex].m_gameGrid[0][rowIndex][columnIndex] = NOSHIP;
+					players[playerIndex].m_gameGrid[1][rowIndex][columnIndex] = NOSHIP;
+				} // end for columns
+			} // end for rows
+		} // end for player
 	}
 	catch (exception e)
 	{
@@ -266,8 +272,8 @@ void printGrid(ostream& sout, Ship** grid, char size)
 	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
 
-	for (short j = 1; j <= numberOfCols; ++j)
-		sout << setw(3) << j;
+	for (short columnIndex = 1; columnIndex <= numberOfCols; ++columnIndex)
+		sout << setw(3) << columnIndex;
 	sout << endl;
 	// your code goes here ...
 	// use printShip for each element in the grid
@@ -304,8 +310,8 @@ void printGrid(ostream& sout, Ship** grid, char size)
 //---------------------------------------------------------------------------------
 void initializePlayer(Player* playerPtr)
 {
-	for (short i = 0; i < SHIP_SIZE_ARRAYSIZE; i++)
-		setShipInfo(playerPtr->m_ships + i, static_cast<Ship>(i));
+	for (short shipIndex = 0; shipIndex < SHIP_SIZE_ARRAYSIZE; shipIndex++)
+		setShipInfo(playerPtr->m_ships + shipIndex, static_cast<Ship>(shipIndex));
 
 	playerPtr->m_piecesLeft = TOTALPIECES;
 }
@@ -347,33 +353,33 @@ void initializePlayer(Player* playerPtr)
 //		9/12/06 PB comleted v 0.5
 //     
 //---------------------------------------------------------------------------------
-void setships(Player players[], char size, short whichPlayer)
+void setShips(Player players[], char size, short whichPlayer)
 {
 	char input = 'V';
 	char ok = 'Y';
 	char save = 'N';
 	ostringstream outSStream;
 	Cell location = { 0, 0 };
-	for (short j = 1; j < SHIP_SIZE_ARRAYSIZE; j++)
+	for (short shipIndex = 1; shipIndex < SHIP_SIZE_ARRAYSIZE; shipIndex++)
 	{
 		system("cls");
 		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
 		outSStream.str("");
 		outSStream << "Player " << whichPlayer + 1 << " Enter "
-			<< shipNames[j] << " orientation";
+			<< shipNames[shipIndex] << " orientation";
 		input = safeChoice(outSStream.str(), 'V', 'H');
-		players[whichPlayer].m_ships[j].m_orientation
+		players[whichPlayer].m_ships[shipIndex].m_orientation
 			= (input == 'V') ? VERTICAL : HORIZONTAL;
-		cout << "Player " << whichPlayer + 1 << " Enter " << shipNames[j] <<
+		cout << "Player " << whichPlayer + 1 << " Enter " << shipNames[shipIndex] <<
 			" bow coordinates <row letter><col #>: ";
-		players[whichPlayer].m_ships[j].m_bowLocation = getCoord(cin, size);
+		players[whichPlayer].m_ships[shipIndex].m_bowLocation = getCoord(cin, size);
 
 		// if ok
-		if (!validLocation(players[whichPlayer], j, size))
+		if (!validLocation(players[whichPlayer], shipIndex, size))
 		{
 			cout << "invalid location. Press <enter>";
 			cin.get();
-			j--; // redo
+			shipIndex--; // redo
 			continue;
 		}
 		// your code goes here ...
@@ -638,7 +644,7 @@ void header(ostream& sout)
 	const string empty;
 	const string sink("SINK THE FLEET!");
 	// your name goes here!
-	const string by("Edmonds Community College CS 132");
+	const string by("By Norton Pengra & Tabitha Roemish");
 	boxTop(sout, BOXWIDTH);
 	boxLine(sout, empty, BOXWIDTH);
 	boxLine(sout, sink, BOXWIDTH, 'C');
