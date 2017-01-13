@@ -184,11 +184,15 @@ void deleteMem(Player players[], char size)
 	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
 
 	for (short playerIndex = 0; playerIndex < NUMPLAYERS; ++playerIndex) {
-		for (short gridIndex = 0; playerIndex <= 1; gridIndex ++) {
-			if (players[playerIndex].m_gameGrid[gridIndex]) {
-				
+		if (players[playerIndex].m_gameGrid != nullptr) {
+			for (short gridIndex = 0; playerIndex <= 1; gridIndex++) {
+				if (players[playerIndex].m_gameGrid[gridIndex] != nullptr) {
+					delete[] players[playerIndex].m_gameGrid[gridIndex];
+				}
 			}
+			delete[] players[playerIndex].m_gameGrid;
 		}
+		
 	}
 
 }
