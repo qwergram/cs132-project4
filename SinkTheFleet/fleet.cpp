@@ -173,6 +173,23 @@ void deleteMem(Player players[], char size)
 	// your code goes here ...
 	// delete[] in reverse order of allocMem()
 	// be sure to check if the memory was allocated (!nullptr) BEFORE deleting
+	for (short playerIndex = 0; playerIndex < NUMPLAYERS; ++playerIndex)
+	{ 
+		for (short gameGridIndex = 0; gameGridIndex < 2; ++gameGridIndex)
+		{
+			if (players[playerIndex].m_gameGrid[gameGridIndex] != nullptr)
+			{
+				for (short rowIndex = 0; rowIndex < numberOfRows; ++rowIndex)
+				{
+					if (players[playerIndex].m_gameGrid[gameGridIndex][rowIndex] != nullptr)
+						delete[] players[playerIndex].m_gameGrid[gameGridIndex][rowIndex];
+					else
+						break;
+				}
+			}
+			delete[] players[playerIndex].m_gameGrid[gameGridIndex];
+		}
+	}
 
 }
 
