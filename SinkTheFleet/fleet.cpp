@@ -135,7 +135,7 @@ void allocMem(Player players[], char size)
 			} // end for rows
 		} // end for player
 	}
-	catch (exception e)
+	catch (bad_alloc e)
 	{
 		deleteMem(players, size);
 		cerr << "exception: " << e.what() << endl;
@@ -187,11 +187,12 @@ void deleteMem(Player players[], char size)
 		if (players[playerIndex].m_gameGrid != nullptr) {
 			for (short gridIndex = 0; playerIndex <= 1; gridIndex++) {
 				if (players[playerIndex].m_gameGrid[gridIndex] != nullptr) {
+					for (short rowIndex = 0; rowIndex < )
 					delete[] players[playerIndex].m_gameGrid[gridIndex];
 				}
 			}
-			delete[] players[playerIndex].m_gameGrid;
 		}
+		delete[] players[playerIndex].m_gameGrid;
 		
 	}
 
