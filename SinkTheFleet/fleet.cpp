@@ -180,6 +180,17 @@ void deleteMem(Player players[], char size)
 	// delete[] in reverse order of allocMem()
 	// be sure to check if the memory was allocated (!nullptr) BEFORE deleting
 
+	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
+	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
+
+	for (short playerIndex = 0; playerIndex < NUMPLAYERS; ++playerIndex) {
+		for (short gridIndex = 0; playerIndex <= 1; gridIndex ++) {
+			if (players[playerIndex].m_gameGrid[gridIndex]) {
+				
+			}
+		}
+	}
+
 }
 
 //---------------------------------------------------------------------------------
