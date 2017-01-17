@@ -307,10 +307,12 @@ void printGrid(ostream& sout, Ship** grid, char size)
 			printShip(sout, grid[i][j]); // default grid value is NOSHIP
 		sout << endl;
 		//if col 1, print just horizontal lines
-		for (int k = 0; k < numberOfCols; k++)
+		for (int columnIndex = 0; columnIndex < numberOfCols; columnIndex++)
 		{
-			if (k == 0)
+			if (columnIndex == 0)
 				sout << setw(3) << sout.fill(HORIZ);
+			else if (columnIndex == numberOfCols - 1)
+				sout << (char)CROSS << setw(2) << sout.fill(HORIZ) << (char)CL;
 			else
 				sout << (char)CROSS << setw(2) << sout.fill(HORIZ);
 		}
