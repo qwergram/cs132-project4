@@ -109,7 +109,7 @@ void allocMem(Player players[], char size)
 		for (short playerIndex = 0; playerIndex < NUMPLAYERS; ++playerIndex)
 		{
 			// Setting the gameGride to a nullptr and then to an array (8 or 10) of ships
-			players[playerIndex].m_gameGrid[0] = nullptr;
+			players[playerIndex].m_gameGrid[0] = nullptr; 
 			players[playerIndex].m_gameGrid[1] = nullptr; 
 			players[playerIndex].m_gameGrid[0] = new Ship*[numberOfRows];
 			players[playerIndex].m_gameGrid[1] = new Ship*[numberOfRows];
@@ -133,7 +133,7 @@ void allocMem(Player players[], char size)
 			} // end for rows
 		} // end for player
 	}
-	catch (exception e)
+	catch (bad_alloc e)
 	{
 		deleteMem(players, size);
 		cerr << "exception: " << e.what() << endl;
@@ -291,10 +291,12 @@ void printGrid(ostream& sout, Ship** grid, char size)
 	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
 
-	for (short columnIndex = 1; columnIndex <= numberOfCols; ++columnIndex)
+	for (short columnIndex = 1; columnIndex <= numberOfCols; ++columnIndex) {
 		sout << setw(3) << columnIndex;
+	}
+		
 	sout << endl;
-	
+
 	// your code goes here ...
 	// use printShip for each element in the grid
 	char rowLetter = 'A';
