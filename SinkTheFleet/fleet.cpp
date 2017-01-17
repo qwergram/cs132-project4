@@ -63,6 +63,9 @@ void setShipInfo(ShipInfo * shipInfoPtr, Ship name, Direction orientation,
 	unsigned short row, unsigned short col)
 {
 	// your code here
+	shipInfoPtr->m_name = name;
+	shipInfoPtr->m_orientation = orientation;
+	shipInfoPtr->m_bowLocation = { row, col };
 }
 
 //---------------------------------------------------------------------------------
@@ -93,6 +96,7 @@ void setShipInfo(ShipInfo * shipInfoPtr, Ship name, Direction orientation,
 // History Log:
 //		12/20/05 PB completed v 1.0 
 //		9/13/06  PB completed v 1.01
+//		1/16/2017 NP, TR completed v1.02
 //
 //---------------------------------------------------------------------------------
 void allocMem(Player players[], char size)
@@ -290,10 +294,28 @@ void printGrid(ostream& sout, Ship** grid, char size)
 	for (short columnIndex = 1; columnIndex <= numberOfCols; ++columnIndex)
 		sout << setw(3) << columnIndex;
 	sout << endl;
+	
 	// your code goes here ...
 	// use printShip for each element in the grid
-
-
+	char rowLetter = 'A';
+	for (int i = 0; i < numberOfRows; i++)
+	{
+		sout << rowLetter;
+		for (int j = 0; j < numberOfCols; j++)
+			printShip(sout, grid[i][j]); // default grid value is NOSHIP
+		sout << endl;
+		//if col 1, print just horizontal lines
+		for (int k = 0; k < numberOfCols; k++)
+		{
+			if (k == 0)
+				sout << setw(3) << sout.fill(HORIZ);
+			else
+				sout << (char)CROSS << setw(2) << sout.fill(HORIZ);
+		}
+		sout << endl;
+		rowLetter++;
+	}
+	// end of additional code
 }
 
 //---------------------------------------------------------------------------------
@@ -443,8 +465,19 @@ void saveGrid(Player players[], short whichPlayer, char size)
 {
 	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
+	
 	// your code goes here ...
+	ofstream outStream;
+	const int NAMESIZE = 50;
+	char saveFileName[NAMESIZE];
+	cout << "Please provide a file name for this grid: ";
+	cin.getline(saveFileName, NAMESIZE);
 
+	outStream << size << endl;
+	//call printGrid(
+	
+
+	outStream.close();
 }
 
 //---------------------------------------------------------------------------------
@@ -513,6 +546,10 @@ bool getGrid(Player players[], short whichPlayer, char size, string fileName)
 		return false;
 	}
 	// your code goes here ...
+	    //check file size by looking at first character. if file size is not S or L, ask for new file (TR)
+	    //while !EOF 
+	      //getline from file and print line to cout // or use printGrid
+	      // associate each coordinate to player grid (0)
 
 
 	return true;
