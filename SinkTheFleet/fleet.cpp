@@ -63,6 +63,9 @@ void setShipInfo(ShipInfo * shipInfoPtr, Ship name, Direction orientation,
 	unsigned short row, unsigned short col)
 {
 	// your code here
+	shipInfoPtr->m_name = name;
+	shipInfoPtr->m_orientation = orientation;
+	shipInfoPtr->m_bowLocation = { row, col };
 }
 
 //---------------------------------------------------------------------------------
@@ -93,6 +96,7 @@ void setShipInfo(ShipInfo * shipInfoPtr, Ship name, Direction orientation,
 // History Log:
 //		12/20/05 PB completed v 1.0 
 //		9/13/06  PB completed v 1.01
+//		1/16/2017 NP, TR completed v1.02
 //
 //---------------------------------------------------------------------------------
 void allocMem(Player players[], char size)
@@ -113,17 +117,11 @@ void allocMem(Player players[], char size)
 			for (short rowIndex = 0; rowIndex < numberOfRows; ++rowIndex)
 			{
 				//-------------------------------------------------
-				//	your code goes here ...
-				// set the pointers to NULL, then allocate the
-				// memory for each row in each grid
-				
 				players[playerIndex].m_gameGrid[0][rowIndex] = nullptr;
 				players[playerIndex].m_gameGrid[1][rowIndex] = nullptr;
 				players[playerIndex].m_gameGrid[0][rowIndex] = new Ship[numberOfCols];
 				players[playerIndex].m_gameGrid[1][rowIndex] = new Ship[numberOfCols];
-
-				// need to create an empty array in each row for each column
-
+				
 				//--------------------------------------------------
 				
 				// iterate over the columns and set them as no ship spots
@@ -179,21 +177,22 @@ void deleteMem(Player players[], char size)
 	// your code goes here ...
 	// delete[] in reverse order of allocMem()
 	// be sure to check if the memory was allocated (!nullptr) BEFORE deleting
-
-	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
-	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
-
-	for (short playerIndex = 0; playerIndex < NUMPLAYERS; ++playerIndex) {
-		if (players[playerIndex].m_gameGrid != nullptr) {
-			for (short gridIndex = 0; playerIndex <= 1; gridIndex++) {
-				if (players[playerIndex].m_gameGrid[gridIndex] != nullptr) {
-					for (short rowIndex = 0; rowIndex < )
-					delete[] players[playerIndex].m_gameGrid[gridIndex];
+	for (short playerIndex = 0; playerIndex < NUMPLAYERS; ++playerIndex)
+	{ 
+		for (short gameGridIndex = 0; gameGridIndex < 2; ++gameGridIndex)
+		{
+			if (players[playerIndex].m_gameGrid[gameGridIndex] != nullptr)
+			{
+				for (short rowIndex = 0; rowIndex < numberOfRows; ++rowIndex)
+				{
+					if (players[playerIndex].m_gameGrid[gameGridIndex][rowIndex] != nullptr)
+						delete[] players[playerIndex].m_gameGrid[gameGridIndex][rowIndex];
+					else
+						break;
 				}
 			}
+			delete[] players[playerIndex].m_gameGrid[gameGridIndex];
 		}
-		delete[] players[playerIndex].m_gameGrid;
-		
 	}
 
 }
@@ -298,11 +297,27 @@ void printGrid(ostream& sout, Ship** grid, char size)
 		
 	sout << endl;
 
-
 	// your code goes here ...
 	// use printShip for each element in the grid
-
-
+	char rowLetter = 'A';
+	for (int i = 0; i < numberOfRows; i++)
+	{
+		sout << rowLetter;
+		for (int j = 0; j < numberOfCols; j++)
+			printShip(sout, grid[i][j]); // default grid value is NOSHIP
+		sout << endl;
+		//if col 1, print just horizontal lines
+		for (int k = 0; k < numberOfCols; k++)
+		{
+			if (k == 0)
+				sout << setw(3) << sout.fill(HORIZ);
+			else
+				sout << (char)CROSS << setw(2) << sout.fill(HORIZ);
+		}
+		sout << endl;
+		rowLetter++;
+	}
+	// end of additional code
 }
 
 //---------------------------------------------------------------------------------
@@ -452,8 +467,19 @@ void saveGrid(Player players[], short whichPlayer, char size)
 {
 	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
+	
 	// your code goes here ...
+	ofstream outStream;
+	const int NAMESIZE = 50;
+	char saveFileName[NAMESIZE];
+	cout << "Please provide a file name for this grid: ";
+	cin.getline(saveFileName, NAMESIZE);
 
+	outStream << size << endl;
+	//call printGrid(
+	
+
+	outStream.close();
 }
 
 //---------------------------------------------------------------------------------
@@ -522,6 +548,10 @@ bool getGrid(Player players[], short whichPlayer, char size, string fileName)
 		return false;
 	}
 	// your code goes here ...
+	    //check file size by looking at first character. if file size is not S or L, ask for new file (TR)
+	    //while !EOF 
+	      //getline from file and print line to cout // or use printGrid
+	      // associate each coordinate to player grid (0)
 
 
 	return true;

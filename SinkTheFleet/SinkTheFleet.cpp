@@ -95,7 +95,7 @@ int main(void)
 		for (whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
 			// enter grid files or let users enter ships
-
+			printGrid(cout, game[whichPlayer].m_gameGrid[0], gridSize);
 		}
 		whichPlayer = 0;
 		while (!gameOver)
