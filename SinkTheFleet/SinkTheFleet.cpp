@@ -67,7 +67,7 @@ int main(void)
 	Ship shipHit = NOSHIP;
 	Player game[NUMPLAYERS];	// the two players in an array
 								// other stuff ...
-
+	
 	do
 	{
 		system("cls");
@@ -95,7 +95,15 @@ int main(void)
 		for (whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
 			// enter grid files or let users enter ships
-			printGrid(cout, game[whichPlayer].m_gameGrid[0], gridSize);
+				
+				
+				// call setShips (prints empty grid, add ships, asks to save
+			printGrid(cout, game[whichPlayer].m_gameGrid[0], gridSize); // *for testing* - setShips calls printGrid
+
+			
+				// happy with grid?
+			
+			
 		}
 		whichPlayer = 0;
 		while (!gameOver)

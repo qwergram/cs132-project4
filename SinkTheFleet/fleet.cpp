@@ -65,7 +65,7 @@ void setShipInfo(ShipInfo * shipInfoPtr, Ship name, Direction orientation,
 	// your code here
 	shipInfoPtr->m_name = name;
 	shipInfoPtr->m_orientation = orientation;
-	shipInfoPtr->m_bowLocation = { row, col };
+	shipInfoPtr->m_bowLocation = { row, col }; 
 }
 
 //---------------------------------------------------------------------------------
@@ -306,7 +306,7 @@ void printGrid(ostream& sout, Ship** grid, char size)
 		for (int j = 0; j < numberOfCols; j++)
 			printShip(sout, grid[i][j]); // default grid value is NOSHIP
 		sout << endl;
-		//if col 1, print just horizontal lines
+		//builds graph lines
 		for (int columnIndex = 0; columnIndex < numberOfCols; columnIndex++)
 		{
 			if (columnIndex == 0)
@@ -478,7 +478,8 @@ void saveGrid(Player players[], short whichPlayer, char size)
 	cin.getline(saveFileName, NAMESIZE);
 
 	outStream << size << endl;
-	//call printGrid(
+	//call printGrid(ostream& sout, Ship** grid, char size)
+	printGrid(outStream, players[whichPlayer].m_gameGrid[0]);
 	
 
 	outStream.close();
