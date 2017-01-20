@@ -471,9 +471,9 @@ void setShips(Player players[], char size, short whichPlayer)
 	//	<carrier x><carrier y><carrier orrientation>\n
 	//
 	//	Example: save1.shp
-	//	S
-	//	A1V
-	//	D3H
+	//	<board size="S"/>
+	//	<minesweeper x="A" y="1" o="v"/>
+	//	<sub x="D" y="3" o="H"/>
 	//	...
 
 //
@@ -485,29 +485,75 @@ void saveGrid(Player players[], short whichPlayer, char size)
 {
 	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
-	
-	// your code goes here ...
-	
 	const int NAMESIZE = 50;
 	string saveFileName;
+	string saveFileContents = "";
 
 	cout << "Please provide a file name for this grid: ";
 	getline(cin, saveFileName);
+
+	// Ask if the user wants to use the new or old save format
+	bool useNewSaveFormat = safeChoice("Would you like to use a new save format?") == 'Y';
 	
+	// Check if the user put a .shp themselves
 	if (saveFileName.find('.shp') == -1) {
 		saveFileName += '.shp';
+		if (useNewSaveFormat) {
+			// use file extension .shp2
+			saveFileName += '2';
+		}
+		
 	}
 
 	ofstream outStream(saveFileName);
 	
 	outStream << size << endl;
-	//call printGrid(ostream& sout, Ship** grid, char size)
 	
+	if (useNewSaveFormat) {
+		// Use new save format XML style document
+
+		// add boardSize as <board size="S/L"/>
+		outStream << "<board size=\"" << size << "\"/>" << endl;
+		
+		// keep track of which ships we've already written down
+		bool ignoreList[SHIP_SIZE_ARRAYSIZE] = { true, false, false, false, false };
+
+		// add ships in the format <shipname x="X" y="#" o="v/h"/>
+		for (short rowIndex = 0; rowIndex < numberOfRows; rowIndex++)
+		{
+			for (short columnIndex = 0; columnIndex < numberOfCols; columnIndex++) {
+				short cellValue = (short)players[whichPlayer].m_gameGrid[0][rowIndex][columnIndex];
+				// If it's a ship piece and it's not ignored:
+				if (cellValue >= (short)MINESWEEPER && cellValue <= (short)CARRIER && ignoreList[cellValue]) {
+					// get ship code in string form e.g. "submarine"
+					string shipCode = SHIP_NAMES[cellValue];
+					char orrientation = 'v';
+
+					// if next row contains ship, orrientation is h else v
+					if (
+						columnIndex + 1 < numberOfCols &&
+						(short)players[whichPlayer].m_gameGrid[0][rowIndex][columnIndex + 1] == cellValue
+						) {
+						orrientation = 'h';
+					}
+
+					// write to file
+					outStream << "<" << shipCode << " x=\"" << rowIndex << "\" y=\"" 
+							  << columnIndex << "\" o=\"" << orrientation << "\"/>";
+					ignoreList[cellValue] = true;
+				}
+			}
+		}
+		
+	} else {
+		printGrid(outStream, players[whichPlayer].m_gameGrid[0], size);
+	}
 
 
 
 
-	printGrid(outStream, players[whichPlayer].m_gameGrid[0], size);
+	// Old way:
+	// 
 	
 
 	outStream.close();
