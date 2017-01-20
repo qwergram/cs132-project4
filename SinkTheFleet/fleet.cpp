@@ -471,15 +471,22 @@ void saveGrid(Player players[], short whichPlayer, char size)
 	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
 	
 	// your code goes here ...
-	ofstream outStream;
+	
 	const int NAMESIZE = 50;
-	char saveFileName[NAMESIZE];
-	cout << "Please provide a file name for this grid: ";
-	cin.getline(saveFileName, NAMESIZE);
+	string saveFileName;
 
+	cout << "Please provide a file name for this grid: ";
+	getline(cin, saveFileName);
+	
+	if (saveFileName.find('.txt') == -1) {
+		saveFileName += '.txt';
+	}
+
+	ofstream outStream(saveFileName);
+	
 	outStream << size << endl;
 	//call printGrid(ostream& sout, Ship** grid, char size)
-	printGrid(outStream, players[whichPlayer].m_gameGrid[0]);
+	printGrid(outStream, players[whichPlayer].m_gameGrid[0], size);
 	
 
 	outStream.close();
