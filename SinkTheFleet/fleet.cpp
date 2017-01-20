@@ -729,12 +729,37 @@ Cell getCoord(istream& sin, char size)
 //		12/20/05 PB completed v 0.1
 //     
 //---------------------------------------------------------------------------------
-bool validLocation(const Player& player, short shipNumber, char size)
+bool validLocation(const Player& player, short shipNumber, char size) // not tested yet!
 {
 	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
 	// your code goes here ...
-
+	int row = player.m_ships[shipNumber].m_bowLocation.m_row;
+	int col = player.m_ships[shipNumber].m_bowLocation.m_col;
+	
+	if (player.m_ships[shipNumber].m_orientation == VERTICAL)
+	{	// check size
+		if (row + shipSize[shipNumber] > numberOfRows)
+			return false;
+		// check overlap
+		for (int shipSizeIndex = 0; shipSizeIndex < shipSize[shipNumber]; shipSizeIndex++)
+		{
+			if (player.m_gameGrid[0][row + shipSizeIndex][col] != NOSHIP)
+				return false;
+		}
+	}
+	else //Horizontal
+	{
+		// check size
+		if (col + shipSize[shipNumber] > numberOfCols)
+			return false;
+		// check overlap
+		for (int shipSizeIndex = 0; shipSizeIndex < shipSize[shipNumber]; shipSizeIndex++)
+		{
+			if (player.m_gameGrid[0][row][col + shipSizeIndex] != NOSHIP)
+				return false;
+		}
+	}
 	// replace the return value
 	return true;
 }
