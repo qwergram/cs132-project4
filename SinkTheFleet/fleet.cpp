@@ -461,6 +461,22 @@ void setShips(Player players[], char size, short whichPlayer)
 // 
 // Returns:	void
 //
+//	SAVE FILE FORMAT:
+
+	//	<board size>
+	//	<minesweeper x><minesweeper y><minesweeper orrientation>\n
+	//	<sub x><sub y><sub orrientation>\n
+	//	<frigate x><frigate y><frigate orrientation>\n
+	//	<battleship x><battleship y><battleship orrientation>\n
+	//	<carrier x><carrier y><carrier orrientation>\n
+	//
+	//	Example: save1.shp
+	//	S
+	//	A1V
+	//	D3H
+	//	...
+
+//
 // History Log:
 //		12/20/05 PB completed v 0.1
 //     
@@ -478,14 +494,19 @@ void saveGrid(Player players[], short whichPlayer, char size)
 	cout << "Please provide a file name for this grid: ";
 	getline(cin, saveFileName);
 	
-	if (saveFileName.find('.txt') == -1) {
-		saveFileName += '.txt';
+	if (saveFileName.find('.shp') == -1) {
+		saveFileName += '.shp';
 	}
 
 	ofstream outStream(saveFileName);
 	
 	outStream << size << endl;
 	//call printGrid(ostream& sout, Ship** grid, char size)
+	
+
+
+
+
 	printGrid(outStream, players[whichPlayer].m_gameGrid[0], size);
 	
 
