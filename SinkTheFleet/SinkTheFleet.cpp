@@ -91,15 +91,15 @@ int main(void)
 		allocMem(game, gridSize);
 
 		// ... your code goes here
-
+		
 		for (whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
 			// enter grid files or let users enter ships
 				
 				
 				// call setShips (prints empty grid, add ships, asks to save
-			printGrid(cout, game[whichPlayer].m_gameGrid[0], gridSize); // *for testing* - setShips calls printGrid
-
+			//printGrid(cout, game[whichPlayer].m_gameGrid[0], gridSize); // *for testing* - setShips calls printGrid
+			setShips(game, gridSize, whichPlayer);
 			
 				// happy with grid?
 			

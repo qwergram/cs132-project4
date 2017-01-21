@@ -424,9 +424,30 @@ void setShips(Player players[], char size, short whichPlayer)
 			continue;
 		}
 		// your code goes here ...
+		int row = players[whichPlayer].m_ships[shipIndex].m_bowLocation.m_row;
+		int col = players[whichPlayer].m_ships[shipIndex].m_bowLocation.m_col;
+		if (players[whichPlayer].m_ships[shipIndex].m_orientation == VERTICAL)
+		{
+			for (int shipSizeIndex = 0; shipSizeIndex < shipSize[shipIndex]; shipSizeIndex++)
+				players[whichPlayer].m_gameGrid[0][row + shipSizeIndex][col] = players[whichPlayer].m_ships[shipIndex].m_name;
+		}
+		else // if horizontal
+		{
+			for (int shipSizeIndex = 0; shipSizeIndex < shipSize[shipIndex]; shipSizeIndex++)
+				players[whichPlayer].m_gameGrid[0][row][col + shipSizeIndex] = players[whichPlayer].m_ships[shipIndex].m_name;
+		}
 
+		// clear screen and print ship on grid
+		system("cls"); 
+		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
 
-
+		// ask if OK?
+		ok = safeChoice("Is this OK?");
+		if (ok == 'N')
+		{
+			shipIndex--;
+			continue;
+		}
 
 	} // end for j
 	save = safeChoice("\nSave starting grid?", 'Y', 'N');
