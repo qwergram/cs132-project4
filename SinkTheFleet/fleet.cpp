@@ -441,15 +441,43 @@ void setShips(Player players[], char size, short whichPlayer)
 		system("cls"); 
 		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
 
-		// ask if OK?
-		ok = safeChoice("Is this OK?");
+		// ask if ship placement is OK?
+		ok = safeChoice("Is this ship placement OK?");
 		if (ok == 'N')
 		{
+			//clear ship
+			if (players[whichPlayer].m_ships[shipIndex].m_orientation == VERTICAL)
+			{
+				for (int shipSizeIndex = 0; shipSizeIndex < shipSize[shipIndex]; shipSizeIndex++)
+					players[whichPlayer].m_gameGrid[0][row + shipSizeIndex][col] = NOSHIP;
+			}
+			else // if horizontal
+			{
+				for (int shipSizeIndex = 0; shipSizeIndex < shipSize[shipIndex]; shipSizeIndex++)
+					players[whichPlayer].m_gameGrid[0][row][col + shipSizeIndex] = NOSHIP;
+			}
+			//redo
 			shipIndex--;
 			continue;
 		}
 
 	} // end for j
+	
+	// ask if final grid is OK?
+	ok = safeChoice("Is this grid ok?");
+	if (ok == 'N')
+	{
+		short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
+		short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
+		//clear grid
+		for (short rowIndex = 0; rowIndex < numberOfRows; ++rowIndex)
+			for (short columnIndex = 0; columnIndex < numberOfCols; ++columnIndex)
+				players[whichPlayer].m_gameGrid[0][rowIndex][columnIndex] = NOSHIP;
+		//place ships again
+		setShips(players, size, whichPlayer);
+	}
+	
+	// save grid?
 	save = safeChoice("\nSave starting grid?", 'Y', 'N');
 	if (save == 'Y')
 		saveGrid(players, whichPlayer, size);
@@ -750,7 +778,7 @@ Cell getCoord(istream& sin, char size)
 //		12/20/05 PB completed v 0.1
 //     
 //---------------------------------------------------------------------------------
-bool validLocation(const Player& player, short shipNumber, char size) // not tested yet!
+bool validLocation(const Player& player, short shipNumber, char size) 
 {
 	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
