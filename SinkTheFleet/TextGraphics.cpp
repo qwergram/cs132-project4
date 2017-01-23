@@ -41,10 +41,10 @@ void boxTop(ostream& sout, unsigned short length)
 {
 	if (length > MAX_LINE_LENGTH)
 		length = MAX_LINE_LENGTH;
-	sout.put(UL);
+	sout.put(UPPERLEFT);
 	for (int i = 0; i < length - OFFSET; i++)
 		sout.put(HORIZ);
-	sout.put(UR);
+	sout.put(UPPERRIGHT);
 	sout << endl;
 }
 
@@ -81,10 +81,10 @@ void boxBottom(ostream& sout, unsigned short length)
 {
 	if (length > MAX_LINE_LENGTH)
 		length = MAX_LINE_LENGTH;
-	sout.put(LL);
+	sout.put(LOWERLEFT);
 	for (int i = 0; i < length - OFFSET; i++)
 		sout.put(HORIZ);
-	sout.put(LR);
+	sout.put(LOWERRIGHT);
 	sout << endl;
 }
 //---------------------------------------------------------------------------------

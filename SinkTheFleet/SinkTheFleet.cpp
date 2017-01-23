@@ -8,7 +8,7 @@
 #include <iostream>
 #include <iomanip>
 #include "fleet.h"
-using namespace std;
+	
 extern const char* shipNames[7];
 //---------------------------------------------------------------------------------
 // Function:	main()
@@ -96,12 +96,11 @@ int main(void)
 		{
 			// enter grid files or let users enter ships
 				
-				
-				// call setShips (prints empty grid, add ships, asks to save
+			// call setShips (prints empty grid, add ships, asks to save
 			printGrid(cout, game[whichPlayer].m_gameGrid[0], gridSize); // *for testing* - setShips calls printGrid
 
 			
-				// happy with grid?
+			// happy with grid?
 			
 			
 		}
@@ -112,6 +111,7 @@ int main(void)
 
 
 			whichPlayer = !whichPlayer;  // switch players
+			break;
 		}
 
 		again = safeChoice("Would you like to play again?", 'Y', 'N');

@@ -312,7 +312,7 @@ void printGrid(ostream& sout, Ship** grid, char size)
 			if (columnIndex == 0)
 				sout << setw(3) << sout.fill(HORIZ);
 			else if (columnIndex == numberOfCols - 1)
-				sout << (char)CROSS << setw(2) << sout.fill(HORIZ) << (char)CL;
+				sout << (char)CROSS << setw(2) << sout.fill(HORIZ) << (char)CROSSLEFT;
 			else
 				sout << (char)CROSS << setw(2) << sout.fill(HORIZ);
 		}

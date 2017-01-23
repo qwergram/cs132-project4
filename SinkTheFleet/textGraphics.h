@@ -19,15 +19,15 @@
 using namespace std;
 
 // char definitions
-const unsigned char UL = 0xda;		// upper left
-const unsigned char UR = 0xbf;		// upper right
-const unsigned char LL = 0xc0;		// lower left
-const unsigned char LR = 0xd9;		// lower right
+const unsigned char UPPERLEFT = 0xda;		// upper left
+const unsigned char UPPERRIGHT = 0xbf;		// upper right
+const unsigned char LOWERLEFT = 0xc0;		// lower left
+const unsigned char LOWERRIGHT = 0xd9;		// lower right
 const unsigned char HORIZ = 0xc4;	// horizontal bar
-const unsigned char CR = 0xc3;		// cross to the right
-const unsigned char CL = 0xb4;		// cross to the left
-const unsigned char CU = 0xc1;		// cross up 
-const unsigned char CD = 0xc2;		// cross down
+const unsigned char CROSSRIGHT = 0xc3;		// cross to the right
+const unsigned char CROSSLEFT = 0xb4;		// cross to the left
+const unsigned char CROSSUP = 0xc1;		// cross up 
+const unsigned char CROSSDOWN = 0xc2;		// cross down
 const unsigned char VERT = 0xb3;	// vertical bar
 const unsigned char CROSS = 0xc5;	// crosses
 const unsigned char MISS = 0xb0;	// screen pattern
