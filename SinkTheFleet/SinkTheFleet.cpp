@@ -94,25 +94,46 @@ int main(void)
 		
 		for (whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
-			// enter grid files or let users enter ships
-				
-				
-				// call setShips (prints empty grid, add ships, asks to save
-			//printGrid(cout, game[whichPlayer].m_gameGrid[0], gridSize); // *for testing* - setShips calls printGrid
-			setShips(game, gridSize, whichPlayer);
+		// enter grid files or let users enter ships
 			
-				// happy with grid?
-			
-			
+			//create function for below - get file name, call getGrid in fucntion....
+			char uploadGrid = 'Y'; 
+			const int nameSize = 50;
+			char fileName[nameSize];
+			uploadGrid = safeChoice("Would you like to upload a saved grid?", 'Y', 'N');
+			cout << "Please enter the name of the file to open";
+			if (uploadGrid == 'Y')
+			{
+				getGrid(game, whichPlayer, gridSize, fileName); // getGrid should print out grid to cout and ask if grid is good
+				// if not it should loop and ask if user wants to upload grid. 
+			}
+			else
+				setShips(game, gridSize, whichPlayer); // add ships manually, asks to save grid
 		}
+		
+		// game play outline
+			// Begin Game: clear screen & print header again with prompt "To begin game press <enter>"
 		whichPlayer = 0;
 		while (!gameOver)
 		{
-			// ... a lot more stuff ...
-
-
+		// ... a lot more stuff ...
+			// Play Game:
+				// while (whichPlayer)
+					// printGrid[1]
+					// get firing coordinates
+					// check that firing coordintates have not already been guessed
+					// compare coordinates to opponents grid [0] for hit or miss
+					// Add HIT or MISS to players grid[1]
+					// printGrid[1] with HIT or MISS
+					// track opponents remaining ships (track peices left as well as ship space)
+						//	if ship space == 0 then cout << shipName << "has been sunk!";
+						//  if either player(!whichPlayer).m_piecesLeft == 0, then gameOver = True; 
+					// if MISS, switch players
+						// clear screen
 			whichPlayer = !whichPlayer;  // switch players
 		}
+			// End Game: 
+				// cout << "All opponents battleships have been sunk, congratulations! You win." 
 
 		again = safeChoice("Would you like to play again?", 'Y', 'N');
 	} while (again == 'Y');

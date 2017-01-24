@@ -410,9 +410,9 @@ void setShips(Player players[], char size, short whichPlayer)
 			<< shipNames[shipIndex] << " orientation";
 		input = safeChoice(outSStream.str(), 'V', 'H');
 		players[whichPlayer].m_ships[shipIndex].m_orientation
-			= (input == 'V') ? VERTICAL : HORIZONTAL;
+			= (input == 'V') ? VERTICAL : HORIZONTAL; 
 		cout << "Player " << whichPlayer + 1 << " Enter " << shipNames[shipIndex] <<
-			" bow coordinates <row letter><col #>: ";
+			" bow coordinates <row letter><col #> ";
 		players[whichPlayer].m_ships[shipIndex].m_bowLocation = getCoord(cin, size);
 
 		// if ok
@@ -443,7 +443,7 @@ void setShips(Player players[], char size, short whichPlayer)
 
 		// ask if ship placement is OK?
 		ok = safeChoice("Is this ship placement OK?");
-		if (ok == 'N')
+		if (ok == 'N') // if ship placements is not ok, set ship spots to NOSHIP and redo
 		{
 			//clear ship
 			if (players[whichPlayer].m_ships[shipIndex].m_orientation == VERTICAL)
@@ -465,7 +465,7 @@ void setShips(Player players[], char size, short whichPlayer)
 	
 	// ask if final grid is OK?
 	ok = safeChoice("Is this grid ok?");
-	if (ok == 'N')
+	if (ok == 'N') //if grid is not OK, set all grid spots to NOSHIP and reset/ call setShips
 	{
 		short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 		short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
@@ -674,10 +674,7 @@ bool getGrid(Player players[], short whichPlayer, char size, string fileName)
 		return false;
 	}
 	// your code goes here ...
-	    //check file size by looking at first character. if file size is not S or L, ask for new file (TR)
-	    //while !EOF 
-	      //getline from file and print line to cout // or use printGrid
-	      // associate each coordinate to player grid (0)
+	   
 
 
 	return true;
@@ -727,12 +724,12 @@ Cell getCoord(istream& sin, char size)
 	do
 	{
 		col = 0;
-		cout << "Row must be a letter from A to " << highChar
+		cout << "\nRow must be a letter from A to " << highChar
 			<< " and column must be  from 1 to " << numberOfCols << ": ";
 		while ((row = toupper(sin.get())) < 'A' || row  > highChar)
 		{
 			sin.ignore(BUFFER_SIZE, '\n');
-			cout << "Row must be a letter from A to " << highChar
+			cout << "\nRow must be a letter from A to " << highChar
 				<< " and column must be  from 1 to " << numberOfCols << ": ";
 		}
 		sin >> col;
