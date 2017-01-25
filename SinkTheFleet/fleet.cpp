@@ -45,7 +45,7 @@ const int TOTALPIECES = 17; // total pieces in all ships
 							//
 							// Calls:
 							//
-							// Called By:
+							// Called By:initializePlayer()
 							//
 							// Parameters:	shipInfoPtr: ShipInfo *; pointer to the ShipInfo to be set
 							//				name: Ship;	enumerated name of type of ship; default: NOSHIP
@@ -57,7 +57,7 @@ const int TOTALPIECES = 17; // total pieces in all ships
 							//
 							// History Log:
 							//		12/20/05 PB completed v 0.1
-							//   
+							//		1/24/2017 TR completed for assignment 1 v0.2
 							//---------------------------------------------------------------------------------
 void setShipInfo(ShipInfo * shipInfoPtr, Ship name, Direction orientation,
 	unsigned short row, unsigned short col)
@@ -66,6 +66,7 @@ void setShipInfo(ShipInfo * shipInfoPtr, Ship name, Direction orientation,
 	shipInfoPtr->m_name = name;
 	shipInfoPtr->m_orientation = orientation;
 	shipInfoPtr->m_bowLocation = { row, col }; 
+	shipInfoPtr->m_piecesLeft = shipSize[name];
 }
 
 //---------------------------------------------------------------------------------
@@ -84,7 +85,7 @@ void setShipInfo(ShipInfo * shipInfoPtr, Ship name, Direction orientation,
 //              Software: OS: Windows 7; 
 //              Compiles under Microsoft Visual C++ 2013
 //
-// Calls:
+// Calls: deleteMem() // if new fails
 //
 // Called By:	main()
 //
@@ -291,14 +292,15 @@ void printGrid(ostream& sout, Ship** grid, char size)
 	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
 
+	system("cls");
+
 	for (short columnIndex = 1; columnIndex <= numberOfCols; ++columnIndex) {
 		sout << setw(3) << columnIndex;
-	}
-		
+	}	
 	sout << endl;
-
 	// your code goes here ...
 	// use printShip for each element in the grid
+	
 	char rowLetter = 'A';
 	for (int i = 0; i < numberOfRows; i++)
 	{
@@ -424,6 +426,11 @@ void setShips(Player players[], char size, short whichPlayer)
 			continue;
 		}
 		// your code goes here ...
+		
+		// set shipsize piecesleft
+		players[whichPlayer].m_ships[shipIndex].m_piecesLeft = shipSize[shipIndex];
+		
+		// build ship space
 		int row = players[whichPlayer].m_ships[shipIndex].m_bowLocation.m_row;
 		int col = players[whichPlayer].m_ships[shipIndex].m_bowLocation.m_col;
 		if (players[whichPlayer].m_ships[shipIndex].m_orientation == VERTICAL)

@@ -96,14 +96,18 @@ int main(void)
 		{
 		// enter grid files or let users enter ships
 			
-			//create function for below - get file name, call getGrid in fucntion....
-			char uploadGrid = 'Y'; 
+			char uploadGrid = 'Y';
+			uploadGrid = safeChoice("Would you like to upload a saved grid?", 'Y', 'N');
+			
+			//create function for get file name to use in getGrid and saveGrid...(check for .shp and return string)
+			// string getFileName(string openOrClose);
 			const int nameSize = 50;
 			char fileName[nameSize];
-			uploadGrid = safeChoice("Would you like to upload a saved grid?", 'Y', 'N');
-			cout << "Please enter the name of the file to open";
+			
 			if (uploadGrid == 'Y')
 			{
+				cout << "Please enter the name of the file to open";
+				cin.getline(fileName, nameSize); 
 				getGrid(game, whichPlayer, gridSize, fileName); // getGrid should print out grid to cout and ask if grid is good
 				// if not it should loop and ask if user wants to upload grid. 
 			}
@@ -111,30 +115,58 @@ int main(void)
 				setShips(game, gridSize, whichPlayer); // add ships manually, asks to save grid
 		}
 		
-		// game play outline
-			// Begin Game: clear screen & print header again with prompt "To begin game press <enter>"
+		
+		// Begin Game: clear screen & print header again with prompt "To begin game press <enter>"
+		system("cls");
+		header(cout);
+		cout << "To begin the game, press <enter>";
+		cin.get();
+		
+
+		// Play Game:
 		whichPlayer = 0;
 		while (!gameOver)
 		{
 		// ... a lot more stuff ...
-			// Play Game:
-				// while (whichPlayer)
-					// printGrid[1]
-					// get firing coordinates
-					// check that firing coordintates have not already been guessed
-					// compare coordinates to opponents grid [0] for hit or miss
-					// Add HIT or MISS to players grid[1]
-					// printGrid[1] with HIT or MISS
-					// track opponents remaining ships (track peices left as well as ship space)
-						//	if ship space == 0 then cout << shipName << "has been sunk!";
-						//  if either player(!whichPlayer).m_piecesLeft == 0, then gameOver = True; 
-					// if MISS, switch players
-						// clear screen
-			whichPlayer = !whichPlayer;  // switch players
-		}
-			// End Game: 
-				// cout << "All opponents battleships have been sunk, congratulations! You win." 
+				printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize);
 
+				// get firing coordinates
+				cout << "Enter coordinates for firing";
+				coord = getCoord(cin, gridSize);
+
+				// check that firing coordintates have not already been guessed
+				if (game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col] != NOSHIP)
+				{
+					cout << "You've already guessed that location";
+					continue;
+				}
+				else
+					if (game[whichPlayer].m_gameGrid[0][coord.m_row][coord.m_col] != NOSHIP) //if ship hit
+					{
+						shipHit = game[whichPlayer].m_gameGrid[0][coord.m_row][coord.m_col]; // get ship from grid[0]
+						game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col] = HIT; // add hit to grid[1]
+						printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize); // print hit on grid
+						cout << "Hit!";
+						game[!whichPlayer].m_ships[shipHit].m_piecesLeft--; // take ship point from opponent
+						if (game[!whichPlayer].m_ships[shipHit].m_piecesLeft == 0)
+							cout << "Opponents " << shipHit << "has been sunk!";
+						game[!whichPlayer].m_piecesLeft--; // take total point from opponent
+						if (game[!whichPlayer].m_piecesLeft == 0)
+						{
+							cout << "All opponents battleships have been sunk!";
+							endBox(whichPlayer);
+							gameOver = true;
+						}
+					}
+					else // if miss
+					{
+						game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col] = MISSED; // add miss to grid[1]
+						printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize); // print miss on grid
+						cout << "Missed!";
+						whichPlayer = !whichPlayer;  // switch players	
+					}
+		}
+			 
 		again = safeChoice("Would you like to play again?", 'Y', 'N');
 	} while (again == 'Y');
 
