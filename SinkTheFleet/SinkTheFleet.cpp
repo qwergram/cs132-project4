@@ -95,9 +95,9 @@ int main(void)
 		for (whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
 		// enter grid files or let users enter ships
-			
+			cout << "Player " << whichPlayer;
 			char uploadGrid = 'Y';
-			uploadGrid = safeChoice("Would you like to upload a saved grid?", 'Y', 'N');
+			uploadGrid = safeChoice("would you like to upload a saved grid?", 'Y', 'N');
 			
 			//create function for get file name to use in getGrid and saveGrid...(check for .shp and return string)
 			// string getFileName(string openOrClose);
@@ -131,7 +131,7 @@ int main(void)
 				printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize);
 
 				// get firing coordinates
-				cout << "Enter coordinates for firing";
+				cout << "Player " << whichPlayer << ", enter coordinates for firing";
 				coord = getCoord(cin, gridSize);
 
 				// check that firing coordintates have not already been guessed
@@ -146,10 +146,9 @@ int main(void)
 						shipHit = game[whichPlayer].m_gameGrid[0][coord.m_row][coord.m_col]; // get ship from grid[0]
 						game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col] = HIT; // add hit to grid[1]
 						printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize); // print hit on grid
-						cout << "Hit!";
 						game[!whichPlayer].m_ships[shipHit].m_piecesLeft--; // take ship point from opponent
 						if (game[!whichPlayer].m_ships[shipHit].m_piecesLeft == 0)
-							cout << "Opponents " << shipHit << "has been sunk!";
+							cout << "Opponents " << shipHit << "has been sunk!\n";
 						game[!whichPlayer].m_piecesLeft--; // take total point from opponent
 						if (game[!whichPlayer].m_piecesLeft == 0)
 						{
@@ -157,12 +156,15 @@ int main(void)
 							endBox(whichPlayer);
 							gameOver = true;
 						}
+						cout << "Hit! You get to guess again. Press <enter> to continue.";
+						cin.get();
 					}
 					else // if miss
 					{
 						game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col] = MISSED; // add miss to grid[1]
 						printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize); // print miss on grid
-						cout << "Missed!";
+						cout << "Missed! Your turn is over. Press <enter> to continue";
+						cin.get();
 						whichPlayer = !whichPlayer;  // switch players	
 					}
 		}
