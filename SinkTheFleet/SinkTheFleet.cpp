@@ -95,24 +95,37 @@ int main(void)
 		for (whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
 		// enter grid files or let users enter ships
-			cout << "Player " << whichPlayer;
+			cout << "Player " << whichPlayer + 1;
 			char uploadGrid = 'Y';
-			uploadGrid = safeChoice("would you like to upload a saved grid?", 'Y', 'N');
+			uploadGrid = safeChoice(" would you like to upload a saved grid?", 'Y', 'N');
 			
-			//create function for get file name to use in getGrid and saveGrid...(check for .shp and return string)
-			// string getFileName(string openOrClose);
 			const int nameSize = 50;
 			char fileName[nameSize];
 			
 			if (uploadGrid == 'Y')
 			{
 				cout << "Please enter the name of the file to open";
-				cin.getline(fileName, nameSize); 
+				cin.getline(fileName, nameSize);
 				getGrid(game, whichPlayer, gridSize, fileName); // getGrid should print out grid to cout and ask if grid is good
 				// if not it should loop and ask if user wants to upload grid. 
 			}
 			else
+			{
+				int choice = 'N';
+				choice = safeChoice("Would you like to set ships manually? Enter 'Y' to set ships or 'N' for auto-grid", 'Y', 'N');
+				if (choice== 'Y')
 				setShips(game, gridSize, whichPlayer); // add ships manually, asks to save grid
+				else
+				{
+					autoGrid(game, gridSize, whichPlayer);
+					printGrid(cout, game[whichPlayer].m_gameGrid[0], gridSize);
+				}
+			}
+
+
+			// computer generated grid
+			// cout << "Would you like a computer generated grid?";
+			// autoGrid(Player [] - game, char size - gridSize, short Player - whichPlayer)
 		}
 		
 		
@@ -128,6 +141,7 @@ int main(void)
 		while (!gameOver)
 		{
 		// ... a lot more stuff ...
+
 				printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize);
 
 				// get firing coordinates
@@ -148,7 +162,7 @@ int main(void)
 						printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize); // print hit on grid
 						game[!whichPlayer].m_ships[shipHit].m_piecesLeft--; // take ship point from opponent
 						if (game[!whichPlayer].m_ships[shipHit].m_piecesLeft == 0)
-							cout << "Opponents " << shipHit << "has been sunk!\n";
+							cout << "Opponents " << SHIP_NAMES[shipHit] << " has been sunk!\n";
 						game[!whichPlayer].m_piecesLeft--; // take total point from opponent
 						if (game[!whichPlayer].m_piecesLeft == 0)
 						{

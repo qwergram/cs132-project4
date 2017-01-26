@@ -426,24 +426,10 @@ void setShips(Player players[], char size, short whichPlayer)
 			continue;
 		}
 		// your code goes here ...
+	
+		// build ship space (Ship** grid, int shipIndex)
+		buildShipSpace(players[whichPlayer], shipIndex, 'Y'); // 'Y' for build, 'N' to clear
 		
-		// set shipsize piecesleft
-		players[whichPlayer].m_ships[shipIndex].m_piecesLeft = shipSize[shipIndex];
-		
-		// build ship space
-		int row = players[whichPlayer].m_ships[shipIndex].m_bowLocation.m_row;
-		int col = players[whichPlayer].m_ships[shipIndex].m_bowLocation.m_col;
-		if (players[whichPlayer].m_ships[shipIndex].m_orientation == VERTICAL)
-		{
-			for (int shipSizeIndex = 0; shipSizeIndex < shipSize[shipIndex]; shipSizeIndex++)
-				players[whichPlayer].m_gameGrid[0][row + shipSizeIndex][col] = players[whichPlayer].m_ships[shipIndex].m_name;
-		}
-		else // if horizontal
-		{
-			for (int shipSizeIndex = 0; shipSizeIndex < shipSize[shipIndex]; shipSizeIndex++)
-				players[whichPlayer].m_gameGrid[0][row][col + shipSizeIndex] = players[whichPlayer].m_ships[shipIndex].m_name;
-		}
-
 		// clear screen and print ship on grid
 		system("cls"); 
 		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
@@ -452,19 +438,8 @@ void setShips(Player players[], char size, short whichPlayer)
 		ok = safeChoice("Is this ship placement OK?");
 		if (ok == 'N') // if ship placements is not ok, set ship spots to NOSHIP and redo
 		{
-			//clear ship
-			if (players[whichPlayer].m_ships[shipIndex].m_orientation == VERTICAL)
-			{
-				for (int shipSizeIndex = 0; shipSizeIndex < shipSize[shipIndex]; shipSizeIndex++)
-					players[whichPlayer].m_gameGrid[0][row + shipSizeIndex][col] = NOSHIP;
-			}
-			else // if horizontal
-			{
-				for (int shipSizeIndex = 0; shipSizeIndex < shipSize[shipIndex]; shipSizeIndex++)
-					players[whichPlayer].m_gameGrid[0][row][col + shipSizeIndex] = NOSHIP;
-			}
-			//redo
-			shipIndex--;
+			buildShipSpace(players[whichPlayer], shipIndex, 'N'); //clear ship
+			shipIndex--; //redo
 			continue;
 		}
 
@@ -906,3 +881,79 @@ void endBox(short player)
 	boxBottom(cout, BOXWIDTH);
 }
 
+//---------------------------------------------------------------------------------
+// Function:	buildShipSpace()
+// Title:	Build Ship Space
+// Description:
+//		
+// Programmer:	Tabitha Roemish
+// 
+// Date:	1/26/2017
+//
+// Version:	1.0
+// 
+// Environment: Hardware: E5 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Output:	
+//
+// Calls:	
+//		
+// Called By:	setShips()
+//
+// Parameters:	const Player&;	a reference to the specific Player
+//				shipIndex: short;	the number of the ship (1 - 5)
+//				response: char - build or remove
+// Returns:	
+//
+// History Log: 
+//			1/26/2017 TR completed v1
+//---------------------------------------------------------------------------------
+void buildShipSpace(const Player& player, short shipIndex, char response)
+{
+	int row = player.m_ships[shipIndex].m_bowLocation.m_row;
+	int col = player.m_ships[shipIndex].m_bowLocation.m_col;
+
+	Ship shipName = (response == 'Y') ? player.m_ships[shipIndex].m_name : NOSHIP;
+	if (player.m_ships[shipIndex].m_orientation == VERTICAL)
+	{
+		for (int shipSizeIndex = 0; shipSizeIndex < shipSize[shipIndex]; shipSizeIndex++)
+			player.m_gameGrid[0][row + shipSizeIndex][col] = shipName;
+	}
+	else // if horizontal
+	{
+		for (int shipSizeIndex = 0; shipSizeIndex < shipSize[shipIndex]; shipSizeIndex++)
+			player.m_gameGrid[0][row][col + shipSizeIndex] = shipName;
+	}
+}
+
+//-----------------------------------------------------------------------
+//auto grid 
+// 
+void autoGrid(Player players[], char size, short whichPlayer)
+{
+	Cell location = { 0, 0 };
+	Direction direction = VERTICAL;
+	
+	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
+	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
+	for (short shipIndex = 1; shipIndex < SHIP_SIZE_ARRAYSIZE; shipIndex++)
+	{
+		srand(time(NULL));
+		location.m_row = rand() % (numberOfRows-1) + 1;
+		location.m_col = rand() % (numberOfCols-1) + 1; 
+		int randomDirection = rand() % 2;
+		direction = (randomDirection == 0) ? HORIZONTAL: VERTICAL;
+
+		players[whichPlayer].m_ships[shipIndex].m_bowLocation = location;
+		players[whichPlayer].m_ships[shipIndex].m_orientation = direction;
+
+		if (!validLocation(players[whichPlayer], shipIndex, size))
+		{
+			shipIndex--;
+			continue;
+		}
+		buildShipSpace(players[whichPlayer], shipIndex, 'Y');
+	}
+}
