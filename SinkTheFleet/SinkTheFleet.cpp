@@ -74,62 +74,45 @@ int main(void)
 	populateGrid(PLAYER2);
 
 
-	
+	while (true) {
+		// player one goes first, display their hit/fire board
+		// or display their own board if "O" typed
+		// or surrender if 'S' typed
+		// ask for coordinates
 
-	// Begin Game: clear screen & print header again with prompt "To begin game press <enter>"
-	clearScreen();
-	header(cout);
-	cout << "To begin the game, press <enter>";
-	cin.get();
+		pauseScreen(PLAYER1);
+		do {
+			hit = launchMissile(PLAYER1, &PLAYER2);
+			if (!isAlive(PLAYER2)) {
+				winner = PLAYER1;
+				gameOver = true;
+				break;
+			}
+		} while (hit);
 
-	// Play Game:
-	whichPlayer = 0;
-	while (!gameOver)
-	{
-	    // ... a lot more stuff ...
+		if (gameOver) { break; }
 
-	    printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize);
+		pauseScreen(PLAYER2);
+		do {
+			hit = launchMissile(PLAYER2, &PLAYER1);
+			if (!isAlive(PLAYER1)) {
+				winner = PLAYER2;
+				gameOver = true;
+				break;
+			}
+		} while (hit);
 
-	    // get firing coordinates
-	    cout << "Player " << whichPlayer << ", enter coordinates for firing";
-	    coord = getCoord(cin, gridSize);
-
-	    // check that firing coordintates have not already been guessed
-	    if (game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col] != NOSHIP)
-	    {
-		cout << "You've already guessed that location";
-		continue;
-	    }
-	    else if (game[whichPlayer].m_gameGrid[0][coord.m_row][coord.m_col] != NOSHIP) //if ship hit
-	    {
-		shipHit = game[whichPlayer].m_gameGrid[0][coord.m_row][coord.m_col]; // get ship from grid[0]
-		game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col] = HIT;     // add hit to grid[1]
-		printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize);	  // print hit on grid
-		game[!whichPlayer].m_ships[shipHit].m_piecesLeft--;		     // take ship point from opponent
-		if (game[!whichPlayer].m_ships[shipHit].m_piecesLeft == 0)
-		    cout << "Opponents " << SHIP_NAMES[shipHit] << " has been sunk!\n";
-		game[!whichPlayer].m_piecesLeft--; // take total point from opponent
-		if (game[!whichPlayer].m_piecesLeft == 0)
-		{
-		    cout << "All opponents battleships have been sunk!";
-		    endBox(whichPlayer);
-		    gameOver = true;
-		}
-		cout << "Hit! You get to guess again. Press <enter> to continue.";
-		cin.get();
-	    }
-	    else // if miss
-	    {
-		game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col] = MISSED; // add miss to grid[1]
-		printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize);	 // print miss on grid
-		cout << "Missed! Your turn is over. Press <enter> to continue";
-		cin.get();
-		whichPlayer = !whichPlayer; // switch players
-	    }
+		if (gameOver) { break; }
+				
 	}
 
-	again = safeChoice("Would you like to play again?", 'Y', 'N');
-    } while (again == 'Y');
+	// if user wants to play again
+	if (congratulateWinner(winner)) 
+		main();
+	
+	// deallocate memory for boards/users
+	deletePlayer(PLAYER1);
+	deletePlayer(PLAYER2);
 
     return EXIT_SUCCESS;
 }
