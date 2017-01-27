@@ -50,7 +50,7 @@ void main() {
 
 	// start game loop
 	while (true) {
-		// player one goes first, display their hit/fire board
+		// TODO:
 		// or display their own board if "O" typed
 		// or surrender if 'S' typed
 		// ask for coordinates
