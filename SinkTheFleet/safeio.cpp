@@ -1,11 +1,86 @@
-//----------------------------------------------------------------------------
-// File:	safeio.cpp
-// 
-// Function:
-//      	safeChoice
-//----------------------------------------------------------------------------
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <string>
+#include "SinkTheFleet.h"
 
-#include "safeio.h"
+using namespace std;
+
+
+/*
+<PENGRABOT OPERATION="AUTO_GEN_CODE AUTO_GEN_HEADER AUTO_FORMAT_VSRULES" SECONDARYLANGUAGE="NORTON_SCRIPT_7" VERSION="7.9">
+<STATUS>DELTA<STATUS/>
+<TIME UNIT="SECONDS">0.249<TIME/>
+<ERRORS>
+<WARNING CODE="D_82_BD" TRANSPILATION="JAVASCRIPT" FATAL=FALSE/>
+<WARNING CODE="D_82_9D" TRANSPILATION="JAVASCRIPT" FATAL=FALSE/>
+<WARNING CODE="D_82_LD" TRANSPILATION="JAVASCRIPT" FATAL=FALSE/>
+</ERRORS>
+<!-- Have a good day, Mr. Pengra -->
+</PENGRABOT>
+*/
+/* ----------------------- CPP FILE START ----------------------- */
+
+
+// get a coordinate
+Coord getValidCoordinate(char shipOrrientation, short shipSize, Player player, bool noclip) { // return a coordinate struct
+	string userInput;
+	Coord userCoordinate;
+	Coord offsets;
+	bool valid = false;
+	// for including size of the ship
+
+	while (!valid) {
+
+		getline(cin, userInput);
+
+		// parse into integer
+		userCoordinate.x = atoi(&userInput.c_str()[1]) - 1;
+		userCoordinate.y = indexOf(LETTER_TO_INT, toupper(userInput[0]));
+
+		offsets.x = (!noclip && shipOrrientation == HORIZONTAL_SHIP) ? userCoordinate.x + shipSize : userCoordinate.x + (short)noclip;
+		offsets.y = (!noclip && shipOrrientation == VERTICAL_SHIP) ? userCoordinate.y + shipSize : userCoordinate.y + (short)noclip;
+
+
+		// check if within bounds
+		if (offsets.x <= BOARD_COLS && userCoordinate.x >= 0 && offsets.y <= BOARD_ROWS && userCoordinate.y >= 0) {
+			if (noclip || emptyWaters(userCoordinate, offsets, shipOrrientation, shipSize, player)) {
+				return userCoordinate;
+			}
+			else {
+				cout << "You have a ship occupying that spot: ";
+			}
+		}
+		else {
+			cout << "Please type in a valid coordinate: ";
+		}
+	}
+}
+
+
+// check if it overlaps a ship
+bool emptyWaters(Coord coords, Coord offsets, char orrientation, short shipSize, Player player) {
+	// check if there's a ship there
+	bool valid;
+	if (orrientation == VERTICAL_SHIP) {
+		for (short index = coords.y; index < offsets.y; index++) {
+			valid = player.gameGrid[index][coords.x] == NOSHIP;
+			if (!valid) {
+				return false;
+			}
+		}
+	}
+	else {
+		for (short index = coords.x; index < offsets.x; index++) {
+			valid = player.gameGrid[coords.y][index] == NOSHIP;
+			if (!valid) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
 
 //---------------------------------------------------------------------------------
 // Function: 	safeChoice(string prompt, char choice1, char choice2)
@@ -62,7 +137,3 @@ char safeChoice(string prompt, char choice1, char choice2)
 		cin.ignore(BUFFER_SIZE, '\n');
 	return input;
 }
-
-
-
-
