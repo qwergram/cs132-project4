@@ -1,10 +1,3 @@
-//----------------------------------------------------------------------------
-// File:	fleet.cpp
-//
-// Functions:
-//
-//----------------------------------------------------------------------------
-
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -26,7 +19,6 @@ using namespace std;
 </PENGRABOT>
 */
 /* ----------------------- CPP FILE START ----------------------- */
-
 
 //---------------------------------------------------------------------------------
 // Function:	allocMem()
@@ -61,37 +53,27 @@ using namespace std;
 //---------------------------------------------------------------------------------
 void allocMem(Player players[], char size)
 {
-    short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
-    short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
-
+    
     try
     {
-	for (short playerIndex = 0; playerIndex < NUMPLAYERS; ++playerIndex)
+	// set it to nullptrs first
+	GridEntities **grid = nullptr;
+	grid = new GridEntities *[BOARD_ROWS];
+
+	for (short rowIndex = 0; rowIndex < BOARD_ROWS; ++rowIndex)
 	{
-	    // Setting the gameGride to a nullptr and then to an array (8 or 10) of ships
-	    players[playerIndex].m_gameGrid[0] = nullptr;
-	    players[playerIndex].m_gameGrid[1] = nullptr;
-	    players[playerIndex].m_gameGrid[0] = new Ship *[numberOfRows];
-	    players[playerIndex].m_gameGrid[1] = new Ship *[numberOfRows];
-	    // iterate over all the rows
-	    for (short rowIndex = 0; rowIndex < numberOfRows; ++rowIndex)
+	    // set as nullptr first
+	    GridEntities *row = nullptr;
+	    row = new GridEntities[BOARD_COLS];
+
+	    for (short cellIndex = 0; cellIndex < BOARD_COLS; ++cellIndex)
 	    {
-		//-------------------------------------------------
-		players[playerIndex].m_gameGrid[0][rowIndex] = nullptr;
-		players[playerIndex].m_gameGrid[1][rowIndex] = nullptr;
-		players[playerIndex].m_gameGrid[0][rowIndex] = new Ship[numberOfCols];
-		players[playerIndex].m_gameGrid[1][rowIndex] = new Ship[numberOfCols];
-
-		//--------------------------------------------------
-
-		// iterate over the columns and set them as no ship spots
-		for (short columnIndex = 0; columnIndex < numberOfCols; ++columnIndex)
-		{
-		    players[playerIndex].m_gameGrid[0][rowIndex][columnIndex] = NOSHIP;
-		    players[playerIndex].m_gameGrid[1][rowIndex][columnIndex] = NOSHIP;
-		} // end for columns
-	    }     // end for rows
-	}	 // end for player
+		// set it to NOSHIP
+		row[cellIndex] = NOSHIP;
+	    }
+	    grid[rowIndex] = row;
+	}
+	return grid;
     }
     catch (bad_alloc e)
     {
