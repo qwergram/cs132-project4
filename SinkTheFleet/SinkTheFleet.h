@@ -1,251 +1,163 @@
 #pragma once
-//----------------------------------------------------------------------------
-// File:		fleet.h
-// 
-// Description: Sink the Fleet declarations
-//	
-// Programmer:	Paul Bladek
-// 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 7; 
-//              Compiles under Microsoft Visual C++ 2012
-//----------------------------------------------------------------------------
-#ifndef FLEET_H
-#define FLEET_H
-
 #include <iostream>
-#include <fstream>
-#include <cctype>
 #include <iomanip>
-#include <string>
 #include <sstream>
-#include <ctime>
-#include "textGraphics.h"
-#include "safeio.h"
+#include <string>
 
 using namespace std;
 
-const short NUMPLAYERS = 2;	// number of players in game
-const short SMALLROWS = 8;	// number of rows/columns in small sea array 
-const short LARGEROWS = 10;	// number of rows/columns in large sea array
-const short SMALLCOLS = 12;	// number of rows/columns in small sea array 
-const short LARGECOLS = 24;	// number of rows/columns in large sea array
-
-const short BOXWIDTH = 79;	// maximum screen line length
-
-
-const int SHIP_SIZE_ARRAYSIZE = 6; // size of the shipSize array
-const short shipSize[SHIP_SIZE_ARRAYSIZE] = { 0, 2, 3, 3, 4, 5 };
-const short SHIP_PIECES_ENUM_VALUE[SHIP_SIZE_ARRAYSIZE] = { -1, 0, 1, 2, 3, 4 };
-const string SHIP_NAMES[SHIP_SIZE_ARRAYSIZE] = { "",
-"minesweep",
-"submarine",
-"wsfrigate",
-"bttleship",
-"accarrier" };
-// number of elements for each ship
-
-//----------------------------------------------------------------------------
-// enumerated type for ships
-//----------------------------------------------------------------------------
-enum Ship
-{
-	NOSHIP,		 // 0
-	MINESWEEPER, // 1 (1-5) -- used only for owner
-	SUB,		 // 2
-	FRIGATE,	 // 3
-	BATTLESHIP,	 // 4
-	CARRIER,	 // 5
-	HIT,		 // 6 (6-7)-- used only for other side
-	MISSED,		 // 7 
-};
-
-//----------------------------------------------------------------------------
-// enumerated type for direction on grid
-//----------------------------------------------------------------------------
-enum Direction
-{
-	HORIZONTAL, // 0
-	VERTICAL	// 1
-};
-
-
-//----------------------------------------------------------------------------
-// row and column location
-//----------------------------------------------------------------------------
-struct Cell
-{
-	unsigned short m_row;	// row
-	unsigned short m_col;	// column
-};
-
-//----------------------------------------------------------------------------
-// needed info about each ship
-//----------------------------------------------------------------------------
-struct ShipInfo
-{
-	Ship m_name;			// which ship?
-	Direction m_orientation;// which direction is the ship facing? 
-	Cell m_bowLocation;		// which cell is the bow location?
-	short m_piecesLeft;		// how many sections are left undestroyed?
-};
-
-//----------------------------------------------------------------------------
-// needed info about each player
-//----------------------------------------------------------------------------
-struct Player
-{
-	Ship ** m_gameGrid[NUMPLAYERS]; // one 2-d array for each player
-									// [0] is player's grid;
-									// [1] is opponant's grid
-	ShipInfo m_ships[SHIP_SIZE_ARRAYSIZE];	// ships in fleet-- [0] is blank	
-	short m_piecesLeft;	// how many sections of fleet are left undestroyed?
-};
-
-//----------------------------------------------------------------------------
-// function prototypes for ship
-//----------------------------------------------------------------------------
-
-// prints to sout one individual ship
-void printShip(ostream & sout, Ship thisShip);
-
-// builds ship in player grid or removes it
-void buildShipSpace(const Player& player, short shipIndex, char response);
-
-// returns true if ship has been sunk (no points left)
-bool isSunk(Ship thisShip);
-
-//  prints a specific game grid
-void printGrid(ostream& sout, Ship** grid, char size);
-
-// automatically builds a grid with ships
-void autoGrid(Player players[], char size, short whichPlayer);
-
-//----------------------------------------------------------------------------
-// function prototypes for ShipInfo
-//----------------------------------------------------------------------------
-// sets ShipInfo fields
-void setShipInfo(ShipInfo * shipInfoPtr, Ship name = NOSHIP,
-	Direction orientation = HORIZONTAL,
-	unsigned short row = 0, unsigned short col = 0);
-
-//----------------------------------------------------------------------------
-// function prototypes for Player
-//----------------------------------------------------------------------------
-// sets initial values for m_ships and m_piecesLeft
-void initializePlayer(Player* playerPtr);
-
-// allocates memory for grids
-void allocMem(Player players[], char size);
-
-// deletes memory for grids
-void deleteMem(Player players[], char size);
-
-// saves the ship grid to a file
-void saveGrid(Player players[], short whichPlayer, char size);
-
-// reads grid from a file	
-bool getGrid(Player players[], short whichPlayer, char size, string fileName);
-
-// allows user to put ships in grid
-void setShips(Player players[], char size, short whichPlayer);
-
-// returns a cell with coordinates set by user
-Cell getCoord(istream& sin, char size);
-
-// can the ship go there?
-bool validLocation(const Player& player, short shipNumber, char size);
-
-// ...
-//----------------------------------------------------------------------------
-// other function prototypes
-//----------------------------------------------------------------------------
-// prints opening graphic
-void header(ostream& sout);
-// prints closinging graphic
-void endBox(short player);
-// your headers go here 
+// Board size possibilities
+const short BOARD_ROWS_SMALL = 8;
+const short BOARD_ROWS_LARGE = 10;
+const short BOARD_COLS_SMALL = 12;
+const short BOARD_COLS_LARGE = 24;
 
 const unsigned BUFFER_SIZE = 256;
-char safeChoice(string prompt, char choice1 = 'Y', char choice2 = 'N');
 
-template<class T>
-void safeRead(istream& sin, T& input,
-	const char* prompt = "invalid input--please input a NUMBER: ");
+// char definitions
+const unsigned char UPPERLEFTCHAR = 0xda;			// upper left
+const unsigned char UPPERRIGHTCHAR = 0xbf;			// upper right
+const unsigned char LOWERLEFTCHAR = 0xc0;			// lower left
+const unsigned char LOWERRIGHTCHAR = 0xd9;			// lower right
+const unsigned char HORIZCHAR = 0xc4;				// horizontal bar
+const unsigned char CROSSRIGHTCHAR = 0xc3;			// cross to the right
+const unsigned char CROSSLEFTCHAR = 0xb4;			// cross to the left
+const unsigned char CROSSUPCHAR = 0xc1;				// cross up 
+const unsigned char CROSSDOWNCHAR = 0xc2;			// cross down
+const unsigned char VERTCHAR = 0xb3;				// vertical bar
+const unsigned char CROSSCHAR = 0xc5;				// crosses
+const unsigned char MISSCHAR = 0xb0;				// screen pattern
 
-//---------------------------------------------------------------------------------
-// Function:	template<class T>
-//				void safeRead(istream& sin, T& input, const char* prompt)
-//
-// Title:		safeRead
-//
-// Description: Safely reads in a variable (input) from sin.
-//					Re-prompts and re-enters if input is invalid  
-//
-// Programmer:	Paul Bladek
-// 
-// Date:		5/1/2006
-//
-// Version: 1.0
-// 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 7; 
-//              Compiles under Microsoft Visual C++ 2013
-//
-// Input: T& input from istream& sin
-//
-// Output: Screen display of prompt
-//
-// Calls: none
-//
-// Called By: 
-//
-// Parameters:	istream& sin		-- the input stream
-//				T& input			-- theinput variable
-//				const char* prompt	-- prompt if not a number
-// 
-// Returns: none
-//
-// History Log:
-//				5/1/06 PB completed version 1.0
-// ------------------------------------------------------------------------------
-template<class T>
-void safeRead(istream& sin, T& input, const char* prompt)
+const unsigned char LEFTCHAR = 'L';					// left alignment
+const unsigned char RIGHTCHAR = 'R';				// right alignment
+const unsigned char CENTERCHAR = 'C';				// center alignment
+
+
+const short MAX_LINE_LENGTH = 79;					// longest line allowed
+const int OFFSET = 2;								// number of start & end chars
+
+													// Total ships each player has
+const short GRID_ENTITIES_COUNT = 8;
+
+// Range of enums that are actually ships
+const short SHIP_RANGES[2] = { 1, 6 };
+
+enum GridEntities // Ships on the battlefield
 {
-	while (!(sin >> input))		// read in number--enter loop if fail
-	{
-		sin.clear();
-		sin.ignore(BUFFER_SIZE, '\n');
-		cout << prompt;
-	}
-	sin.ignore(BUFFER_SIZE, '\n');
-}
-#endif
+	NOSHIP,		  // 0
+	MINESWEEPER,  // 1
+	SUB,		  // 2
+	FRIGATE,	  // 3
+	BATTLESHIP,	  // 4
+	CARRIER,	  // 5
+	HIT,		  // 6 
+	MISSED,		  // 7
+};
 
-const unsigned char UPPERLEFT = 0xda;		// upper left
-const unsigned char UPPERRIGHT = 0xbf;		// upper right
-const unsigned char LOWERLEFT = 0xc0;		// lower left
-const unsigned char LOWERRIGHT = 0xd9;		// lower right
-const unsigned char HORIZ = 0xc4;	// horizontal bar
-const unsigned char CROSSRIGHT = 0xc3;		// cross to the right
-const unsigned char CROSSLEFT = 0xb4;		// cross to the left
-const unsigned char CROSSUP = 0xc1;		// cross up 
-const unsigned char CROSSDOWN = 0xc2;		// cross down
-const unsigned char VERT = 0xb3;	// vertical bar
-const unsigned char CROSS = 0xc5;	// crosses
-const unsigned char MISS = 0xb0;	// screen pattern
+// syntatic sugars for ship orrientation
+const char VERTICAL_SHIP = 'V';
+const char HORIZONTAL_SHIP = 'H';
 
-const unsigned char LEFT = 'L';		// left alignment
-const unsigned char RIGHT = 'R';	// right alignment
-const unsigned char CENTER = 'C';	// center alignment
+// How to display the ships on the board
+const char ASCII_SHIP[GRID_ENTITIES_COUNT] = {
+	' ', 'M', 'S', 'F', 'B', 'C', 'X', MISSCHAR
+};
 
-const short MAX_LINE_LENGTH = 79;	// longest line allowed
-const int OFFSET = 2;			// number of start & end chars
+// letter to int converter
+const char LETTER_TO_INT[BOARD_ROWS_LARGE] = {
+	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'
+};
 
-								// prints the top line of a box
+// string equivs of ships
+const string SHIPS[GRID_ENTITIES_COUNT] = {
+	"noship",
+	"Minesweeper",
+	"Submarine",
+	"Frigate",
+	"Battleship",
+	"Carrier",
+	"hit",
+	"miss"
+};
+
+
+// number of hits required to win game (sum of SHIP_HEALTH)
+const short PLAYER_HEALTH = 17;
+
+// A Player Struct
+struct Player {
+	GridEntities ** gameGrid;		 										// This player's grid w/ oponent's hits on it
+	short playerHealth[GRID_ENTITIES_COUNT] = { 0, 2, 3, 3, 4, 5, 0, 0 };   // Player's remaning health of each ship
+	string name;														    // This player's name
+};
+
+
+// Board size
+extern short BOARD_ROWS;
+extern short BOARD_COLS;
+
+// Players
+extern Player PLAYER1;
+extern Player PLAYER2;
+
+
+// Coodinate Struct
+struct Coord {
+	short x;
+	short y;
+};
+
+// utilities
+int indexOf(const char * charArray, char toFind);
+
+// Functions
+void main();
+void presentWelcome();
+void setBoardSize();
+string getPlayerName(short playerId);
+GridEntities ** allocMemory();
+bool loadFile(Player player);
+void manuallyPopulate(Player player);
+
+// building and deleting players
+Player initPlayer(short playerId);
+void deletePlayer(Player player);
+
+// Grid population related functions
+void populateGrid(Player player);
+void placeShip(Coord coordinates, char orrientation, short shipId, Player player, short size = -1);
+void removeShip(Coord coordinates, char orrientation, short shipId, Player player);
+
+// save file operations
+void saveMenu(Player player);
+void generateSave(string filePath, Player player);
+
+// safely handle user input/output functions
+char safeChoice(string prompt, char choice1 = 'Y', char choice2 = 'N');
+Coord getValidCoordinate(char shipOrrientation, short shipSize, Player player, bool noclip = false);
+
+// user/game logic
+bool launchMissile(Player attacker, Player * defender);
+bool isAlive(Player player);
+bool emptyWaters(Coord coords, Coord offsets, char orrientation, short shipSize, Player player);
+
+// clear screen
+void clearScreen();
+
+// pause screen for switching players
+void pauseScreen(Player player);
+bool congratulateWinner(Player player);
+
+// prints the top line of a box					
 void boxTop(ostream& sout, unsigned short length);
 // prints the bottom line of a box
 void boxBottom(ostream& sout, unsigned short length);
 // prints text line of a box
-void boxLine(ostream& sout, const string& text, unsigned short length,
-	unsigned char alignment = 'L', char fillc = ' ');
+void boxLine(ostream& sout, const string& text, unsigned short length, unsigned char alignment = LEFTCHAR, char fillc = ' ');
+// Create a pretty box w/ title
+void titleBox(ostream& sout, string header, string by);
+// printing ships and grids to the screen
+void printGrid(GridEntities ** playerGrid, bool hideShips = false);
+void printGrid(ostream& sout, GridEntities ** playerGrid, bool hideShips = false);
+void printShip(GridEntities thisShip, bool hideShips);
+
