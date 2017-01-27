@@ -69,12 +69,10 @@ int main(void)
 	bool hit;
 	Player winner;
 
-	initializePlayer(game);
-	initializePlayer(game + 1);
-	// dynamically create the rows of the array
-	allocMem(game, gridSize);
+	// build board for each player
+	populateGrid(PLAYER1);
+	populateGrid(PLAYER2);
 
-	// ... your code goes here
 
 	for (whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 	{
