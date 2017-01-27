@@ -57,7 +57,7 @@ int main(void)
 	
 	do
 	{
-		system("cls");
+		clearScreen();
 		cout << endl;
 		header(cout);
 		gridSize = safeChoice("Which size grid to you want to use", 'S', 'L');
@@ -117,7 +117,7 @@ int main(void)
 		
 		
 		// Begin Game: clear screen & print header again with prompt "To begin game press <enter>"
-		system("cls");
+		clearScreen();
 		header(cout);
 		cout << "To begin the game, press <enter>";
 		cin.get();
