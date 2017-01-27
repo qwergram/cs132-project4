@@ -22,11 +22,26 @@ using namespace std;
 /* ----------------------- CPP FILE START ----------------------- */
 
 
+// check if a coordinate is valid
+bool isValidCoordinate(Coord userCoordinate, char shipOrrientation, short shipSize, Player player, bool noclip) {
+	Coord offsets;
+	
+	offsets.x = (!noclip && shipOrrientation == HORIZONTAL_SHIP) ? userCoordinate.x + shipSize : userCoordinate.x + (short)noclip;
+	offsets.y = (!noclip && shipOrrientation == VERTICAL_SHIP) ? userCoordinate.y + shipSize : userCoordinate.y + (short)noclip;
+
+	// check if within bounds
+	if (offsets.x <= BOARD_COLS && userCoordinate.x >= 0 && offsets.y <= BOARD_ROWS && userCoordinate.y >= 0)
+		return (noclip || emptyWaters(userCoordinate, offsets, shipOrrientation, shipSize, player));
+	
+	return false;
+}
+
+
 // get a coordinate
 Coord getValidCoordinate(char shipOrrientation, short shipSize, Player player, bool noclip) { // return a coordinate struct
 	string userInput;
 	Coord userCoordinate;
-	Coord offsets;
+	
 	bool valid = false;
 	// for including size of the ship
 
@@ -38,22 +53,12 @@ Coord getValidCoordinate(char shipOrrientation, short shipSize, Player player, b
 		userCoordinate.x = atoi(&userInput.c_str()[1]) - 1;
 		userCoordinate.y = indexOf(LETTER_TO_INT, toupper(userInput[0]));
 
-		offsets.x = (!noclip && shipOrrientation == HORIZONTAL_SHIP) ? userCoordinate.x + shipSize : userCoordinate.x + (short)noclip;
-		offsets.y = (!noclip && shipOrrientation == VERTICAL_SHIP) ? userCoordinate.y + shipSize : userCoordinate.y + (short)noclip;
+		if (isValidCoordinate(userCoordinate, shipOrrientation, shipSize, player, noclip))
+			return userCoordinate;
+		
+			cout << "Please enter a valid coordinate: ";
 
-
-		// check if within bounds
-		if (offsets.x <= BOARD_COLS && userCoordinate.x >= 0 && offsets.y <= BOARD_ROWS && userCoordinate.y >= 0) {
-			if (noclip || emptyWaters(userCoordinate, offsets, shipOrrientation, shipSize, player)) {
-				return userCoordinate;
-			}
-			else {
-				cout << "You have a ship occupying that spot: ";
-			}
-		}
-		else {
-			cout << "Please type in a valid coordinate: ";
-		}
+		
 	}
 }
 
