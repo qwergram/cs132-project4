@@ -6,21 +6,43 @@
 
 using namespace std;
 
-/*
-<PENGRABOT OPERATION="AUTO_GEN_CODE AUTO_GEN_HEADER AUTO_FORMAT_VSRULES" SECONDARYLANGUAGE="NORTON_SCRIPT_7" VERSION="7.9">
-<STATUS>DELTA<STATUS/>
-<TIME UNIT="SECONDS">0.249<TIME/>
-<ERRORS>
-<WARNING CODE="D_82_BD" TRANSPILATION="JAVASCRIPT" FATAL=FALSE/>
-<WARNING CODE="D_82_9D" TRANSPILATION="JAVASCRIPT" FATAL=FALSE/>
-<WARNING CODE="D_82_LD" TRANSPILATION="JAVASCRIPT" FATAL=FALSE/>
-</ERRORS>
-<!-- Have a good day, Mr. Pengra -->
-</PENGRABOT>
-*/
-/* ----------------------- CPP FILE START ----------------------- */
 
+/* ----------------------- CPP FILE START ----------------------- */
+//---------------------------------------------------------------------------------
+// Function: 	bool isAlive(Player player)
+//
+// Title:	isAlive
+//
+// Description: 
 // checks if the current player has any more fleet left
+//   
+// Programmer:	Norton Pengra
+// 
+// Date:	1/27/2017
+//
+// Version: 	1.0
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	None
+//
+// Output:	none
+//
+// Calls: 	none
+//
+// Called By: main()
+//		
+// Parameters:	player: Player struct
+//		
+// 
+// Returns:	bool
+//
+// History Log:
+//		1/31/2017 NP & TR v1 completed
+// ------------------------------------------------------------------------------
+
 bool isAlive(Player player) {
 	int playerHealth = 0;
 	for (short shipIndex = 0; shipIndex < GRID_ENTITIES_COUNT; shipIndex++) {
@@ -28,8 +50,41 @@ bool isAlive(Player player) {
 	}
 	return playerHealth > 0;
 }
+//---------------------------------------------------------------------------------
+// Function: 	void manuallyPopulate(Player player)
+//
+// Title:	Manually Populate
+//
+// Description: 
+// Provides prompts to enter ships manually and populates grid with ships
+//   
+// Programmer:	Norton Pengra & Tabitha Roemish
+// 
+// Date:	1/27/2017
+//
+// Version: 	1.0
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	orientation (H, V), coordinates(Row Col, ex. A1), shipOkay (Y, N) 
+//
+// Output:	Prints grid
+//
+// Calls: 	clearScreen()
+//			getValidCoordinate()
+//
+// Called By: PopulateGrid()
+//
+// Parameters:	player: Player struct
+//		
+// Returns:	none
+//
+// History Log:
+//		1/31/2017 NP & TR v1 completed
+// ------------------------------------------------------------------------------
 
-// ask the user to place ships themselves
 void manuallyPopulate(Player player) {
 	string shipName;
 	GridEntities shipEnum;
@@ -71,13 +126,83 @@ void manuallyPopulate(Player player) {
 		}
 	}
 }
-
+//---------------------------------------------------------------------------------
+// Function: 	void removeShip(Coord coordinates, char orrientation, short shipId, Player player)
+//
+// Title:	Remove Ship
+//
+// Description: 
 // remove the ship on this grid
+//   
+// Programmer:	Norton Pengra & Tabitha Roemish
+// 
+// Date:	1/27/2017
+//
+// Version: 	1.0
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	none
+//
+// Output:	none
+//
+// Calls: 	placeShip()
+//
+// Called By: manuallyPopulate()
+//
+// Parameters:	coordinates: Coord struct
+//				orrientation: Char (V or H) 
+//				shipId: short (index of ship)
+//				player: Player struct
+// Returns:	none
+//
+// History Log:
+//		1/31/2017 NP & TR v1 completed
+// ------------------------------------------------------------------------------
+
 void removeShip(Coord coordinates, char orrientation, short shipId, Player player) {
 	placeShip(coordinates, orrientation, NOSHIP, player, player.playerHealth[shipId]);
 }
+//---------------------------------------------------------------------------------
+// Function: 	void placeShip(Coord coordinates, char orrientation, short shipId, Player player, short size)
+//
+// Title:	Place Ship
+//
+// Description:  place the ship on board at location specified
+//		
+//   
+// Programmer:	Norton Pengra & Tabitha Roemish
+// 
+// Date:	1/27/2017
+//
+// Version: 	1.0
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	none
+//
+// Output:	none
+//
+// Calls: 	none
+//
+// Called By:	manuallyPopulate()
+//				removeShip()
+//	
+// Parameters:	coordinates: Coord struct
+//				orrientation: char (V or H)
+//				shipId: short (ship index)
+//				player: Player struct
+//				size: short (size of ship)
+// Returns:	none
+//
+// History Log:
+//		1/27/2017 NP & TR v1 completed
+// ------------------------------------------------------------------------------
 
-// place the ship on board at location specified
 void placeShip(Coord coordinates, char orrientation, short shipId, Player player, short size) {
 	size = (size < 0) ? player.playerHealth[shipId] : size;
 	if (orrientation == HORIZONTAL_SHIP) {
@@ -92,8 +217,39 @@ void placeShip(Coord coordinates, char orrientation, short shipId, Player player
 	}
 }
 
+//---------------------------------------------------------------------------------
+// Function: 	void deletePlayer(Player player)
+//
+// Title:	Delete Player
+//
+// Description: deallocate memory for each player
+// 
+// Programmer:	Norton Pengra & Tabitha Roemish
+// 
+// Date:	1/27/2017
+//
+// Version: 	1.0
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	none
+//
+// Output:	none
+//
+// Calls: 	none
+//
+// Called By: main()
+//		
+// Parameters:	player: Player struct
+//		
+// Returns:	none
+//
+// History Log:
+//		1/31/2017 NP & TR v1 completed
+// ------------------------------------------------------------------------------
 
-// deallocate memory for each player
 void deletePlayer(Player player) {
 	// delete the board
 	if (player.gameGrid != nullptr) {
@@ -108,8 +264,40 @@ void deletePlayer(Player player) {
 	}
 	delete[] player.gameGrid;
 }
+//---------------------------------------------------------------------------------
+// Function: 	Player initPlayer(short playerId)
+//
+// Title:	Init Player
+//
+// Description: allocate memory for the player's boards and set player names
+//		
+// Programmer:	Norton Pengra & Tabitha Roemish
+// 
+// Date:	1/27/2017
+//
+// Version: 	1.0
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	none
+//
+// Output:	none
+//
+// Calls: 	allocMemory()
+//			getPlayerName()
+//
+// Called By:	main()
+//		
+// Parameters:	playerID: short (1st or 2nd player)
+// 
+// Returns:	Player struct
+//
+// History Log:
+//		1/31/2017 NP & TR v1 completed
+// ------------------------------------------------------------------------------
 
-// allocate memory for the player's boards and set player names
 Player initPlayer(short playerId) {
 	Player newPlayer;
 	newPlayer.name = getPlayerName(playerId);
@@ -117,8 +305,40 @@ Player initPlayer(short playerId) {
 	newPlayer.gameGrid = allocMemory();
 	return newPlayer;
 }
+//---------------------------------------------------------------------------------
+// Function: 	GridEntities ** allocMemory()
+//
+// Title:	Alloc Memory
+//
+// Description: Allocates memory for one player
+//		
+//   
+// Programmer:	Norton Pengra & Tabitha Roemish
+// 
+// Date:	1/27/2017
+//
+// Version: 	1.0
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	none
+//
+// Output:	none
+//
+// Calls: 	none
+//
+// Called By:	initPlayer()
+//		
+// Parameters:	none
+//		
+// Returns:	GridEntities
+//
+// History Log:
+//		1/31/2017 NP & TR v1 completed
+// ------------------------------------------------------------------------------
 
-// allocateMemory operations
 GridEntities ** allocMemory() {
 
 	// set it to nullptrs first
@@ -135,11 +355,46 @@ GridEntities ** allocMemory() {
 			row[cellIndex] = NOSHIP;
 		}
 		grid[rowIndex] = row;
-
 	}
 	return grid;
 }
-
+//---------------------------------------------------------------------------------
+// Function: 	
+//
+// Title:	
+//
+// Description: 
+//		
+//   
+// Programmer:	Norton Pengra
+// 
+// Date:	1/27/2017
+//
+// Version: 	1.0
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	
+//
+// Output:	
+//
+// Calls: 	
+//
+// Called By:
+//		
+//
+//
+// Parameters:	
+//		
+//		
+// 
+// Returns:	
+//
+// History Log:
+//		
+// ------------------------------------------------------------------------------
 // get player's name
 string getPlayerName(short playerId) {
 	string playerName;
@@ -147,14 +402,86 @@ string getPlayerName(short playerId) {
 	getline(cin, playerName);
 	return playerName;
 }
-
+//---------------------------------------------------------------------------------
+// Function: 	
+//
+// Title:	
+//
+// Description: 
+//		
+//   
+// Programmer:	Norton Pengra
+// 
+// Date:	1/27/2017
+//
+// Version: 	1.0
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	
+//
+// Output:	
+//
+// Calls: 	
+//
+// Called By:
+//		
+//
+//
+// Parameters:	
+//		
+//		
+// 
+// Returns:	
+//
+// History Log:
+//		
+// ------------------------------------------------------------------------------
 // ask what the board the user would like to use and set global params
 void setBoardSize() {
 	char userChoice = safeChoice("Which size grid would you like to use", 'S', 'L');
 	BOARD_ROWS = (userChoice == 'S') ? BOARD_ROWS_SMALL : BOARD_ROWS_LARGE;
 	BOARD_COLS = (userChoice == 'S') ? BOARD_COLS_SMALL : BOARD_COLS_LARGE;
 }
-
+//---------------------------------------------------------------------------------
+// Function: 	
+//
+// Title:	
+//
+// Description: 
+//		
+//   
+// Programmer:	Norton Pengra
+// 
+// Date:	1/27/2017
+//
+// Version: 	1.0
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	
+//
+// Output:	
+//
+// Calls: 	
+//
+// Called By:
+//		
+//
+//
+// Parameters:	
+//		
+//		
+// 
+// Returns:	
+//
+// History Log:
+//		
+// ------------------------------------------------------------------------------
 // launches a missile onto a ship returns true if hit and false if miss
 bool launchMissile(Player attacker, Player * defender) {
 	Coord target;
@@ -172,7 +499,43 @@ bool launchMissile(Player attacker, Player * defender) {
 		cout << "You have already guessed that position." << endl;
 		getline(cin, shipName);
 	}
-
+//---------------------------------------------------------------------------------
+// Function: 	
+//
+// Title:	
+//
+// Description: 
+//		
+//   
+// Programmer:	Norton Pengra
+// 
+// Date:	1/27/2017
+//
+// Version: 	1.0
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	
+//
+// Output:	
+//
+// Calls: 	
+//
+// Called By:
+//		
+//
+//
+// Parameters:	
+//		
+//		
+// 
+// Returns:	
+//
+// History Log:
+//		
+// ------------------------------------------------------------------------------
 	// check if the cell is a ship
 	if (cell < SHIP_RANGES[1] && cell >= SHIP_RANGES[0]) {
 		defender->gameGrid[target.y][target.x] = HIT;
@@ -202,7 +565,43 @@ bool launchMissile(Player attacker, Player * defender) {
 		return false;
 	}
 }
-
+//---------------------------------------------------------------------------------
+// Function: 	
+//
+// Title:	
+//
+// Description: 
+//		
+//   
+// Programmer:	Norton Pengra
+// 
+// Date:	1/27/2017
+//
+// Version: 	1.0
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	
+//
+// Output:	
+//
+// Calls: 	
+//
+// Called By:
+//		
+//
+//
+// Parameters:	
+//		
+//		
+// 
+// Returns:	
+//
+// History Log:
+//		
+// ------------------------------------------------------------------------------
 // ask if the user has a file they'd like to load
 void populateGrid(Player player) {
 	bool useFile = safeChoice(player.name + ", Would you like to load from a file?") == 'Y';
@@ -223,7 +622,43 @@ void populateGrid(Player player) {
 	}
 	clearScreen();
 }
-
+//---------------------------------------------------------------------------------
+// Function: 	
+//
+// Title:	
+//
+// Description: 
+//		
+//   
+// Programmer:	Norton Pengra
+// 
+// Date:	1/27/2017
+//
+// Version: 	1.0
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	
+//
+// Output:	
+//
+// Calls: 	
+//
+// Called By:
+//		
+//
+//
+// Parameters:	
+//		
+//		
+// 
+// Returns:	
+//
+// History Log:
+//		
+// ------------------------------------------------------------------------------
 // load a file
 bool loadFile(Player player) {
 	ifstream handle;
@@ -276,7 +711,43 @@ bool loadFile(Player player) {
 	}
 	return true;
 }
-
+//---------------------------------------------------------------------------------
+// Function: 	
+//
+// Title:	
+//
+// Description: 
+//		
+//   
+// Programmer:	Norton Pengra
+// 
+// Date:	1/27/2017
+//
+// Version: 	1.0
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	
+//
+// Output:	
+//
+// Calls: 	
+//
+// Called By:
+//		
+//
+//
+// Parameters:	
+//		
+//		
+// 
+// Returns:	
+//
+// History Log:
+//		
+// ------------------------------------------------------------------------------
 // ask the user if they'd like to save, and if they do, save the map.
 void saveMenu(Player player) {
 	if (safeChoice("Would you like to save the map?") == 'Y') {
@@ -294,6 +765,43 @@ void saveMenu(Player player) {
 	}
 }
 
+//---------------------------------------------------------------------------------
+// Function: 	
+//
+// Title:	
+//
+// Description: 
+//		
+//   
+// Programmer:	Norton Pengra
+// 
+// Date:	1/27/2017
+//
+// Version: 	1.0
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	
+//
+// Output:	
+//
+// Calls: 	
+//
+// Called By:
+//		
+//
+//
+// Parameters:	
+//		
+//		
+// 
+// Returns:	
+//
+// History Log:
+//		
+// ------------------------------------------------------------------------------
 // write the save file
 void generateSave(string filePath, Player player) {
 	ofstream handle(filePath);
@@ -312,7 +820,43 @@ void generateSave(string filePath, Player player) {
 
 	handle.close();
 }
-
+//---------------------------------------------------------------------------------
+// Function: 	
+//
+// Title:	
+//
+// Description: 
+//		
+//   
+// Programmer:	Norton Pengra
+// 
+// Date:	1/27/2017
+//
+// Version: 	1.0
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	
+//
+// Output:	
+//
+// Calls: 	
+//
+// Called By:
+//		
+//
+//
+// Parameters:	
+//		
+//		
+// 
+// Returns:	
+//
+// History Log:
+//		
+// ------------------------------------------------------------------------------
 // find the Index of the array
 int indexOf(const char * charArray, char toFind) {
 	int index = 0;
