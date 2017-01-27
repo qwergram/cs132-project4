@@ -36,13 +36,13 @@ const short BOXWIDTH = 79;	// maximum screen line length
 
 const int SHIP_SIZE_ARRAYSIZE = 6; // size of the shipSize array
 const short shipSize[SHIP_SIZE_ARRAYSIZE] = { 0, 2, 3, 3, 4, 5 };
-const short SHIP_PIECES_ENUM_VALUE[SHIP_SIZE_ARRAYSIZE] = {-1, 0, 1, 2, 3, 4};
+const short SHIP_PIECES_ENUM_VALUE[SHIP_SIZE_ARRAYSIZE] = { -1, 0, 1, 2, 3, 4 };
 const string SHIP_NAMES[SHIP_SIZE_ARRAYSIZE] = { "",
-												 "minesweep", 
-												 "submarine", 
-												 "wsfrigate", 
-												 "bttleship", 
-												 "accarrier" };
+"minesweep",
+"submarine",
+"wsfrigate",
+"bttleship",
+"accarrier" };
 // number of elements for each ship
 
 //----------------------------------------------------------------------------

@@ -2,26 +2,30 @@
 // File:	fleet.cpp
 // 
 // Functions: 
-//	  setShipInfo()	
-//	  allocMem() 
-//	  deleteMem()
-//	  printShip() 
-//	  printGrid() 
-//	  initializePlayer() 
-//	  setships()	      
-//	  saveGrid()
-//	  getGrid()
-//	  getCoord()
-//	  validLocation() 
-//	  header() 
-//	  endBox() 
+//
 //----------------------------------------------------------------------------
-#include "fleet.h"
-//---------------------------------------------------------------------------------
-// YOU ARE RESPONSIBLE FOR CORRECT HEADERS -- one for each function
-// include the definitions for each of the non-template functions
-//    declared in fleet.h 
-//---------------------------------------------------------------------------------
+
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <string>
+#include "SinkTheFleet.h"
+
+using namespace std;
+
+/*
+<PENGRABOT OPERATION="AUTO_GEN_CODE AUTO_GEN_HEADER AUTO_FORMAT_VSRULES" SECONDARYLANGUAGE="NORTON_SCRIPT_7" VERSION="7.9">
+<STATUS>DELTA<STATUS/>
+<TIME UNIT="SECONDS">0.249<TIME/>
+<ERRORS>
+<WARNING CODE="D_82_BD" TRANSPILATION="JAVASCRIPT" FATAL=FALSE/>
+<WARNING CODE="D_82_9D" TRANSPILATION="JAVASCRIPT" FATAL=FALSE/>
+<WARNING CODE="D_82_LD" TRANSPILATION="JAVASCRIPT" FATAL=FALSE/>
+</ERRORS>
+<!-- Have a good day, Mr. Pengra -->
+</PENGRABOT>
+*/
+/* ----------------------- CPP FILE START ----------------------- */
 
 const char* shipNames[SHIP_SIZE_ARRAYSIZE] =
 { "No Ship", "Mine Sweeper", "Submarine", "Frigate",
