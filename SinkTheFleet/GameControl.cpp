@@ -27,52 +27,6 @@ using namespace std;
 */
 /* ----------------------- CPP FILE START ----------------------- */
 
-const char *shipNames[SHIP_SIZE_ARRAYSIZE] =
-    {"No Ship", "Mine Sweeper", "Submarine", "Frigate",
-     "Battleship", "Aircraft Carrier"};
-const int TOTALPIECES = 17;
-// total pieces in all ships
-
-//---------------------------------------------------------------------------------
-// Function:	setShipInfo()
-// Title:		Set ShipInfo
-// Description:
-//		Sets struct ShipInfo fields
-// Programmer:
-//
-// Date:	12/20/05
-//
-// Version:	0.1
-//
-// Environment: Intel Xeon PC
-//                Software:   MS Windows 7 for execution;
-//                Compiles under Microsoft Visual C++.Net 2013
-//
-// Calls:
-//
-// Called By:initializePlayer()
-//
-// Parameters:	shipInfoPtr: ShipInfo *; pointer to the ShipInfo to be set
-//				name: Ship;	enumerated name of type of ship; default: NOSHIP
-//				orientation: Direction;	enumerated direction; default: HORIZONTAL
-//				row: unsigned short; row-coordinate in grid; default: 0
-//				col: unsigned short; column-coordinate in grid; default: 0
-//
-// Returns:	void
-//
-// History Log:
-//		12/20/05 PB completed v 0.1
-//		1/24/2017 TR completed for assignment 1 v0.2
-//---------------------------------------------------------------------------------
-void setShipInfo(ShipInfo *shipInfoPtr, Ship name, Direction orientation,
-		 unsigned short row, unsigned short col)
-{
-    // your code here
-    shipInfoPtr->m_name = name;
-    shipInfoPtr->m_orientation = orientation;
-    shipInfoPtr->m_bowLocation = {row, col};
-    shipInfoPtr->m_piecesLeft = shipSize[name];
-}
 
 //---------------------------------------------------------------------------------
 // Function:	allocMem()
@@ -416,7 +370,7 @@ void setShips(Player players[], char size, short whichPlayer)
     char ok = 'Y';
     char save = 'N';
     ostringstream outSStream;
-    Cell location = {0, 0};
+    Coord location = {0, 0};
     for (short shipIndex = 1; shipIndex < SHIP_SIZE_ARRAYSIZE; shipIndex++)
     {
 	system("cls");
@@ -645,7 +599,7 @@ bool getGrid(Player players[], short whichPlayer, char size, string fileName)
     ifstream ifs;
     Ship ship = NOSHIP;
     short shipCount[SHIP_SIZE_ARRAYSIZE] = {0};
-    char cell = ' ';
+    char Coord = ' ';
     char fsize = 'S';
     short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
     short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
@@ -677,7 +631,7 @@ bool getGrid(Player players[], short whichPlayer, char size, string fileName)
 // Function:	getCoord()
 // Title:	Get Coordinates
 // Description:
-//		Returns a cell with coordinates set by user
+//		Returns a Coord with coordinates set by user
 // Programmer:	Paul Bladek
 //
 // Date:	9/12/06
@@ -688,7 +642,7 @@ bool getGrid(Player players[], short whichPlayer, char size, string fileName)
 //              Software: OS: Windows 7;
 //              Compiles under Microsoft Visual C++ 2013
 //
-// Input:	cell coordinates (in the form "A13" from sin
+// Input:	Coord coordinates (in the form "A13" from sin
 //
 // Output:	prompts to cout
 //
@@ -700,20 +654,20 @@ bool getGrid(Player players[], short whichPlayer, char size, string fileName)
 // Parameters:	sin: istream&;	the stream to read from
 //		size: char;	'S' or 'L'
 //
-// Returns:	Cell location -- a cell containing the input coordinates
+// Returns:	Coord location -- a Coord containing the input coordinates
 //
 // History Log:
 //		9/12/06 PB comleted v 1.0
 //
 //---------------------------------------------------------------------------------
-Cell getCoord(istream &sin, char size)
+Coord getCoord(istream &sin, char size)
 {
     short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
     short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
     char highChar = static_cast<char>(numberOfRows - 1) + 'A';
     char row = 'A';
     short col = 0;
-    Cell location = {0, 0};
+    Coord location = {0, 0};
     do
     {
 	col = 0;
@@ -850,49 +804,6 @@ void header(ostream &sout)
 }
 
 //---------------------------------------------------------------------------------
-// Function:	endBox()
-// Title:	End Box
-// Description:
-//		prints closinging graphic
-// Programmer:	Paul Bladek
-//
-// Date:	9/12/06
-//
-// Version:	1.0
-//
-// Environment: Hardware: i3
-//              Software: OS: Windows 7;
-//              Compiles under Microsoft Visual C++ 2013
-//
-// Output:
-//
-// Calls:	boxTop()
-//		boxLine()
-//		boxBottom()
-//
-// Called By:	main()
-//
-// Parameters:	player: short; the number of the winner (0 or 1)
-//
-// Returns:	void
-//
-// History Log:
-//		9/12/06 PB comleted v 1.0
-//
-//---------------------------------------------------------------------------------
-void endBox(short player)
-{
-    const string empty;
-    ostringstream msg;
-    msg << "Congratulations player " << player + 1 << "!";
-    boxTop(cout, BOXWIDTH);
-    boxLine(cout, empty, BOXWIDTH);
-    boxLine(cout, msg.str(), BOXWIDTH, 'C');
-    boxLine(cout, empty, BOXWIDTH);
-    boxBottom(cout, BOXWIDTH);
-}
-
-//---------------------------------------------------------------------------------
 // Function:	buildShipSpace()
 // Title:	Build Ship Space
 // Description:
@@ -944,7 +855,7 @@ void buildShipSpace(const Player &player, short shipIndex, char response)
 //
 void autoGrid(Player players[], char size, short whichPlayer)
 {
-    Cell location = {0, 0};
+    Coord location = {0, 0};
     Direction direction = VERTICAL;
 
     short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
