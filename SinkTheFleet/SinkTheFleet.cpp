@@ -54,19 +54,6 @@ extern const char* shipNames[7];
 //---------------------------------------------------------------------------------
 int main(void)
 {
-	short numRows = SMALLROWS;			// total number of rows in the array
-	short numCols = SMALLCOLS;			// total number of columns in the array
-	char again = 'N';
-	char gridSize = 'S';
-	short whichPlayer = 0;
-	bool gameOver = false;
-	bool reshot = false;
-	Cell coord = { 0, 0 };
-	string message;
-	string filename;
-	Ship shipHit = NOSHIP;
-	Player game[NUMPLAYERS];	// the two players in an array
-								// other stuff ...
 	
 	do
 	{
