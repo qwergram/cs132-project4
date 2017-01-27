@@ -19,6 +19,7 @@
 #include <iomanip>
 #include <string>
 #include <sstream>
+#include <ctime>
 #include "textGraphics.h"
 #include "safeio.h"
 
@@ -108,14 +109,17 @@ struct Player
 // prints to sout one individual ship
 void printShip(ostream & sout, Ship thisShip);
 
-// inputs a ship number from sin and returns a ship
-Ship inputShip(istream & sin);
+// builds ship in player grid or removes it
+void buildShipSpace(const Player& player, short shipIndex, char response);
 
 // returns true if ship has been sunk (no points left)
 bool isSunk(Ship thisShip);
 
 //  prints a specific game grid
 void printGrid(ostream& sout, Ship** grid, char size);
+
+// automatically builds a grid with ships
+void autoGrid(Player players[], char size, short whichPlayer);
 
 //----------------------------------------------------------------------------
 // function prototypes for ShipInfo

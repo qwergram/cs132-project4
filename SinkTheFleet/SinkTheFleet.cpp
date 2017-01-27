@@ -91,29 +91,98 @@ int main(void)
 		allocMem(game, gridSize);
 
 		// ... your code goes here
-
+		
 		for (whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
-			// enter grid files or let users enter ships
-				
-			// call setShips (prints empty grid, add ships, asks to save
-			printGrid(cout, game[whichPlayer].m_gameGrid[0], gridSize); // *for testing* - setShips calls printGrid
+		// enter grid files or let users enter ships
+			cout << "Player " << whichPlayer + 1;
+			char uploadGrid = 'Y';
+			uploadGrid = safeChoice(" would you like to upload a saved grid?", 'Y', 'N');
+			
+			const int nameSize = 50;
+			char fileName[nameSize];
+			
+			if (uploadGrid == 'Y')
+			{
+				cout << "Please enter the name of the file to open";
+				cin.getline(fileName, nameSize);
+				getGrid(game, whichPlayer, gridSize, fileName); // getGrid should print out grid to cout and ask if grid is good
+				// if not it should loop and ask if user wants to upload grid. 
+			}
+			else
+			{
+				int choice = 'N';
+				choice = safeChoice("Would you like to set ships manually? Enter 'Y' to set ships or 'N' for auto-grid", 'Y', 'N');
+				if (choice== 'Y')
+				setShips(game, gridSize, whichPlayer); // add ships manually, asks to save grid
+				else
+				{
+					autoGrid(game, gridSize, whichPlayer);
+					printGrid(cout, game[whichPlayer].m_gameGrid[0], gridSize);
+				}
+			}
 
-			
-			// happy with grid?
-			
-			
+
+			// computer generated grid
+			// cout << "Would you like a computer generated grid?";
+			// autoGrid(Player [] - game, char size - gridSize, short Player - whichPlayer)
 		}
+		
+		
+		// Begin Game: clear screen & print header again with prompt "To begin game press <enter>"
+		system("cls");
+		header(cout);
+		cout << "To begin the game, press <enter>";
+		cin.get();
+		
+
+		// Play Game:
 		whichPlayer = 0;
 		while (!gameOver)
 		{
-			// ... a lot more stuff ...
+		// ... a lot more stuff ...
 
+				printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize);
 
-			whichPlayer = !whichPlayer;  // switch players
-			break;
+				// get firing coordinates
+				cout << "Player " << whichPlayer << ", enter coordinates for firing";
+				coord = getCoord(cin, gridSize);
+
+				// check that firing coordintates have not already been guessed
+				if (game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col] != NOSHIP)
+				{
+					cout << "You've already guessed that location";
+					continue;
+				}
+				else
+					if (game[whichPlayer].m_gameGrid[0][coord.m_row][coord.m_col] != NOSHIP) //if ship hit
+					{
+						shipHit = game[whichPlayer].m_gameGrid[0][coord.m_row][coord.m_col]; // get ship from grid[0]
+						game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col] = HIT; // add hit to grid[1]
+						printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize); // print hit on grid
+						game[!whichPlayer].m_ships[shipHit].m_piecesLeft--; // take ship point from opponent
+						if (game[!whichPlayer].m_ships[shipHit].m_piecesLeft == 0)
+							cout << "Opponents " << SHIP_NAMES[shipHit] << " has been sunk!\n";
+						game[!whichPlayer].m_piecesLeft--; // take total point from opponent
+						if (game[!whichPlayer].m_piecesLeft == 0)
+						{
+							cout << "All opponents battleships have been sunk!";
+							endBox(whichPlayer);
+							gameOver = true;
+						}
+						cout << "Hit! You get to guess again. Press <enter> to continue.";
+						cin.get();
+					}
+					else // if miss
+					{
+						game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col] = MISSED; // add miss to grid[1]
+						printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize); // print miss on grid
+						cout << "Missed! Your turn is over. Press <enter> to continue";
+						cin.get();
+						whichPlayer = !whichPlayer;  // switch players	
+					}
 		}
-
+			 
 		again = safeChoice("Would you like to play again?", 'Y', 'N');
 	} while (again == 'Y');
 
