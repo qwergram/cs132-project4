@@ -1,65 +1,40 @@
-//----------------------------------------------------------------------------
-// File:	SinkTheFleetleet.cpp
-//
-// Function:
-//      main()
-//----------------------------------------------------------------------------
-
 #include <iostream>
 #include <iomanip>
-#include "fleet.h"
+#include <fstream>
+#include <string>
+#include "SinkTheFleet.h"
 
-extern const char *shipNames[7];
-//---------------------------------------------------------------------------------
-// Function:	main()
-// Title:		Set ShipInfo
-// Description:
-//				Runs the Sink the Fleet Game
-// Programmer:	Paul Bladek
-// modified by:
-//
-// Date:		12/9/2010
-//
-// Version:		0.5
-//
-// Environment: Hardware: i3
-//              Software: OS: Windows 7;
-//              Compiles under Microsoft Visual C++ 2013
-//
-// Input:
-//
-// Output:
-//
-// Calls:		initializePlayer()
-//				allocMem()
-//				safeChoice()
-//				getGrid()
-//				printGrid()
-//				resetGrid()
-//				setships()
-//				header()
-//				getCoord()
-//				deleteMem()
-//				endBox()
-//
-// Called By:	n/a
-//
-// Parameters:	void
-//
-// Returns:		int -- EXIT_SUCCESS upon successful completion
-//
-// History Log:
-//				12/9/2010 PB completed v 0.5
-//
-//---------------------------------------------------------------------------------
-int main(void)
-{
+using namespace std;
 
-    do
-    {
+
+/*
+<PENGRABOT OPERATION="AUTO_GEN_CODE AUTO_GEN_HEADER AUTO_FORMAT_VSRULES" SECONDARYLANGUAGE="NORTON_SCRIPT_7" VERSION="7.9">
+	<STATUS>DELTA<STATUS/>
+	<TIME UNIT="SECONDS">0.249<TIME/>
+	<ERRORS>
+		<WARNING CODE="D_82_BD" TRANSPILATION="JAVASCRIPT" FATAL=FALSE/>
+		<WARNING CODE="D_82_9D" TRANSPILATION="JAVASCRIPT" FATAL=FALSE/>
+		<WARNING CODE="D_82_LD" TRANSPILATION="JAVASCRIPT" FATAL=FALSE/>
+	</ERRORS>
+	<!-- Have a good day, Mr. Pengra -->
+</PENGRABOT>
+*/
+/* ----------------------- CPP FILE START ----------------------- */
+
+// Board size
+short BOARD_ROWS;
+short BOARD_COLS;
+
+// Players
+Player PLAYER1;
+Player PLAYER2;
+
+// main game loop
+void main() {
+	
 	presentWelcome();
 	setBoardSize();
-
+	
 	// allocate memory for boards/users
 	PLAYER1 = initPlayer(1);
 	PLAYER2 = initPlayer(2);
@@ -68,12 +43,12 @@ int main(void)
 	bool gameOver = false;
 	bool hit;
 	Player winner;
-
+	
 	// build board for each player
 	populateGrid(PLAYER1);
 	populateGrid(PLAYER2);
 
-
+	// start game loop
 	while (true) {
 		// player one goes first, display their hit/fire board
 		// or display their own board if "O" typed
@@ -113,6 +88,6 @@ int main(void)
 	// deallocate memory for boards/users
 	deletePlayer(PLAYER1);
 	deletePlayer(PLAYER2);
-
-    return EXIT_SUCCESS;
 }
+
+
