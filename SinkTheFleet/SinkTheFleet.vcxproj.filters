@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="fleet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="safeio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -27,15 +24,12 @@
     <ClCompile Include="TextGraphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="fleet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="safeio.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="textGraphics.h">
+    <ClInclude Include="SinkTheFleet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
