@@ -313,11 +313,11 @@ Player initPlayer(short playerId) {
 // Description: Allocates memory for one player
 //		
 //   
-// Programmer:	Norton Pengra & Tabitha Roemish
+// Programmer:	Paul Bladek & Norton Pengra & Tabitha Roemish
 // 
 // Date:	1/27/2017
 //
-// Version: 	1.0
+// Version: 	1.03
 // 
 // Environment: Hardware: i7 
 //              Software: OS: Windows 10; 
@@ -336,7 +336,10 @@ Player initPlayer(short playerId) {
 // Returns:	GridEntities
 //
 // History Log:
-//		1/31/2017 NP & TR v1 completed
+//		12/20/05 PB completed v 1.0 
+//		9/13/06  PB completed v 1.01
+//		1/16/2017 NP, TR completed v1.02
+//		1/31/2017 NP & TR v1 completed v1.03
 // ------------------------------------------------------------------------------
 
 GridEntities ** allocMemory() {
@@ -359,13 +362,12 @@ GridEntities ** allocMemory() {
 	return grid;
 }
 //---------------------------------------------------------------------------------
-// Function: 	
+// Function: 	string getPlayerName(short playerId)
 //
-// Title:	
+// Title:	Get Player Name
 //
-// Description: 
+// Description: prompts and inputs player name
 //		
-//   
 // Programmer:	Norton Pengra
 // 
 // Date:	1/27/2017
@@ -376,26 +378,21 @@ GridEntities ** allocMemory() {
 //              Software: OS: Windows 10; 
 //              Compiles under Microsoft Visual C++ 2015
 //
-// Input:	
+// Input:	name from cin
 //
-// Output:	
+// Output:	name prompt
 //
-// Calls: 	
+// Calls: 	none
 //
-// Called By:
+// Called By: initPlayer()
 //		
-//
-//
-// Parameters:	
+// Parameters:	playerID: short (player 1 or 2)
 //		
-//		
-// 
-// Returns:	
+// Returns:	string
 //
 // History Log:
-//		
+//		1/31/2017 NP v1 completed
 // ------------------------------------------------------------------------------
-// get player's name
 string getPlayerName(short playerId) {
 	string playerName;
 	cout << "What is player #" << playerId << "'s name?" << endl << "Name: ";
@@ -407,10 +404,10 @@ string getPlayerName(short playerId) {
 //
 // Title:	
 //
-// Description: 
+// Description: ask what the board the user would like to use and set global params
 //		
 //   
-// Programmer:	Norton Pengra
+// Programmer:	Paul Bladek & Norton Pengra
 // 
 // Date:	1/27/2017
 //
@@ -420,38 +417,36 @@ string getPlayerName(short playerId) {
 //              Software: OS: Windows 10; 
 //              Compiles under Microsoft Visual C++ 2015
 //
-// Input:	
+// Input:	board size (S or L)
 //
-// Output:	
+// Output:	prompt for board size
 //
-// Calls: 	
+// Calls: 	safeChoice()
 //
-// Called By:
+// Called By: main()
 //		
 //
-//
-// Parameters:	
-//		
-//		
-// 
-// Returns:	
+// Parameters:	none
+//			
+// Returns:	none
 //
 // History Log:
-//		
+//		12/20/05 PB  completed SinkTheFleet main() with board size 
+//		1/31/2017 NP completed v1.0
 // ------------------------------------------------------------------------------
-// ask what the board the user would like to use and set global params
+
 void setBoardSize() {
 	char userChoice = safeChoice("Which size grid would you like to use", 'S', 'L');
 	BOARD_ROWS = (userChoice == 'S') ? BOARD_ROWS_SMALL : BOARD_ROWS_LARGE;
 	BOARD_COLS = (userChoice == 'S') ? BOARD_COLS_SMALL : BOARD_COLS_LARGE;
 }
 //---------------------------------------------------------------------------------
-// Function: 	
+// Function: 	bool launchMissile(Player attacker, Player * defender)
 //
-// Title:	
+// Title:	Launch Missile
 //
-// Description: 
-//		
+// Description:  asks for coordinate
+// and launches a missile onto a ship returns true if hit and false if miss
 //   
 // Programmer:	Norton Pengra
 // 
@@ -463,26 +458,23 @@ void setBoardSize() {
 //              Software: OS: Windows 10; 
 //              Compiles under Microsoft Visual C++ 2015
 //
-// Input:	
+// Input:	coordinates (ex. A1)
 //
-// Output:	
+// Output:	prompts for coordinates
+// outputs message if coordinate is already guessed
 //
-// Calls: 	
+// Calls: 	getValidCoordinate()
 //
-// Called By:
+// Called By: main()
 //		
-//
-//
-// Parameters:	
-//		
-//		
-// 
-// Returns:	
+// Parameters:	attacker: Player Struct
+//				defender: pointer to Player struct
+// Returns:	bool
 //
 // History Log:
-//		
+//		1/31/2017 
 // ------------------------------------------------------------------------------
-// launches a missile onto a ship returns true if hit and false if miss
+
 bool launchMissile(Player attacker, Player * defender) {
 	Coord target;
 	short cell;
@@ -499,43 +491,7 @@ bool launchMissile(Player attacker, Player * defender) {
 		cout << "You have already guessed that position." << endl;
 		getline(cin, shipName);
 	}
-//---------------------------------------------------------------------------------
-// Function: 	
-//
-// Title:	
-//
-// Description: 
-//		
-//   
-// Programmer:	Norton Pengra
-// 
-// Date:	1/27/2017
-//
-// Version: 	1.0
-// 
-// Environment: Hardware: i7 
-//              Software: OS: Windows 10; 
-//              Compiles under Microsoft Visual C++ 2015
-//
-// Input:	
-//
-// Output:	
-//
-// Calls: 	
-//
-// Called By:
-//		
-//
-//
-// Parameters:	
-//		
-//		
-// 
-// Returns:	
-//
-// History Log:
-//		
-// ------------------------------------------------------------------------------
+
 	// check if the cell is a ship
 	if (cell < SHIP_RANGES[1] && cell >= SHIP_RANGES[0]) {
 		defender->gameGrid[target.y][target.x] = HIT;
