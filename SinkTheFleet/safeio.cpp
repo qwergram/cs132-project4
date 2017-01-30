@@ -1,3 +1,11 @@
+//----------------------------------------------------------------------------
+// File:	safeio.cpp
+// 
+// Function:
+//      	safeChoice()
+//			getValidCoordinate()
+//			emptyWaters()
+//----------------------------------------------------------------------------
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -6,25 +14,63 @@
 
 using namespace std;
 
+//---------------------------------------------------------------------------------
+// Function: 	Coord getValidCoordinate(char shipOrrientation, short shipSize, 
+//					Player player, bool noclip)
+//
+// Title:	Get Valid Coordinate
+//
+// Description: 
+//		gets valid coordinates for placing a ship and firing 
+//   
+// Programmer:	Paul Bladek & Norton Pengra & Tabitha Roemish
+// 
+// 
+// Date:	12/20/05
+//
+// Version: 	1.2
+// 
+// Environment: Hardware: i7
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:	string input from console
+//
+// Output:	Screen display of invalid prompts
+//
+// Calls: 	emptyWaters()
+//
+// Called By:	launchMissile
+//				manuallyPopulate
+//
+//
+// Parameters:	shipOrientation: Char (V or H)
+//				shipSize: short (ship size array index)
+//				player: Player Struct
+//				noclip: bool (distinguishes between firing or placing ships)
+//		
+// 
+// Returns:	the character input and validated
+//
+// History Log:
+//		12/20/05 PB completed v 1
+//      1/27/2017 TR completed v1.1
+//		1/31/2017 NP completed v1.2
+// ------------------------------------------------------------------------------
 
-/* ----------------------- CPP FILE START ----------------------- */
-
-
-// get a coordinate
 Coord getValidCoordinate(char shipOrrientation, short shipSize, Player player, bool noclip) { // return a coordinate struct
 	string userInput;
 	Coord userCoordinate;
 	Coord offsets;
 	bool valid = false;
-	// for including size of the ship
+	
 
 	while (!valid) {
 
 		getline(cin, userInput);
 
-		// parse into integer
-		userCoordinate.x = atoi(&userInput.c_str()[1]) - 1;
-		userCoordinate.y = indexOf(LETTER_TO_INT, toupper(userInput[0]));
+		userCoordinate.x = atoi(&userInput.c_str()[1]) - 1; // parse into integer (-1 for grid index)
+		userCoordinate.y = indexOf(LETTER_TO_INT, toupper(userInput[0])); //obtain grid index for letter input
 
 		offsets.x = (!noclip && shipOrrientation == HORIZONTAL_SHIP) ? userCoordinate.x + shipSize : userCoordinate.x + (short)noclip;
 		offsets.y = (!noclip && shipOrrientation == VERTICAL_SHIP) ? userCoordinate.y + shipSize : userCoordinate.y + (short)noclip;
@@ -45,8 +91,40 @@ Coord getValidCoordinate(char shipOrrientation, short shipSize, Player player, b
 	}
 }
 
+//---------------------------------------------------------------------------------
+// Function:	bool emptyWaters(Coord coords, Coord offsets, char orrientation, 
+//					short shipSize, Player player)
+// Title:	Empty Waters
+// Description:
+//		checks if a ship is already occupying the area
+// Programmer: Paul Bladek & Norton Pengra & Tabitha Roemish
+// 
+// Date:	12/20/05
+//
+// Version:	1.1
+// 
+// Environment: Hardware: i3 
+//              Software: OS: Windows 7; 
+//              Compiles under Microsoft Visual C++ 2013
+//
+// Calls: none
+//
+// Called By: getValidCoordinate()
+//
+// Parameters:	coord: Coord struct (intial corrdinates)
+//				offsets: coord struct (adjusted coordinates)
+//				orrientation: char (V or H)
+//				shipSize: short (size of ship)
+//				player: Player struct
+// 
+// Returns: bool -- 	false if water is occupied
+//				
+//
+// History Log:
+//		12/20/05 PB completed v 1
+//      01/31/2017 NP & TR completed 1.1
+//---------------------------------------------------------------------------------
 
-// check if it overlaps a ship
 bool emptyWaters(Coord coords, Coord offsets, char orrientation, short shipSize, Player player) {
 	// check if there's a ship there
 	bool valid;

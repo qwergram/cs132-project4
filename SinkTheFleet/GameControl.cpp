@@ -1,3 +1,21 @@
+//----------------------------------------------------------------------------
+// File:	GameControl.cpp
+// 
+// Functions: 
+//		isAlive()	
+//		manuallyPopulate()
+//		removeShip()
+//		placeShip()
+//		deletePlayer()
+//		initPlayer()
+//		allocMemory()
+//		getPlayerName()
+//		setBoardSize()
+//		launchMissile()
+//		populateGrid()
+//		
+//		
+//----------------------------------------------------------------------------
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -7,14 +25,12 @@
 using namespace std;
 
 
-/* ----------------------- CPP FILE START ----------------------- */
 //---------------------------------------------------------------------------------
 // Function: 	bool isAlive(Player player)
 //
 // Title:	isAlive
 //
-// Description: 
-// checks if the current player has any more fleet left
+// Description: checks if the current player has any more fleet left
 //   
 // Programmer:	Norton Pengra
 // 
@@ -36,7 +52,6 @@ using namespace std;
 //		
 // Parameters:	player: Player struct
 //		
-// 
 // Returns:	bool
 //
 // History Log:
@@ -55,8 +70,7 @@ bool isAlive(Player player) {
 //
 // Title:	Manually Populate
 //
-// Description: 
-// Provides prompts to enter ships manually and populates grid with ships
+// Description: Provides prompts to enter ships manually and populates grid with ships
 //   
 // Programmer:	Norton Pengra & Tabitha Roemish
 // 
@@ -228,7 +242,7 @@ void placeShip(Coord coordinates, char orrientation, short shipId, Player player
 // 
 // Date:	1/27/2017
 //
-// Version: 	1.0
+// Version: 	1.1
 // 
 // Environment: Hardware: i7 
 //              Software: OS: Windows 10; 
@@ -247,7 +261,7 @@ void placeShip(Coord coordinates, char orrientation, short shipId, Player player
 // Returns:	none
 //
 // History Log:
-//		1/31/2017 NP & TR v1 completed
+//		1/31/2017 NP & TR v1.1 completed
 // ------------------------------------------------------------------------------
 
 void deletePlayer(Player player) {
@@ -315,7 +329,7 @@ Player initPlayer(short playerId) {
 //   
 // Programmer:	Paul Bladek & Norton Pengra & Tabitha Roemish
 // 
-// Date:	1/27/2017
+// Date:		1/31/2017
 //
 // Version: 	1.03
 // 
@@ -400,9 +414,9 @@ string getPlayerName(short playerId) {
 	return playerName;
 }
 //---------------------------------------------------------------------------------
-// Function: 	
+// Function: 	setBoardSize()
 //
-// Title:	
+// Title:	Set Board Size
 //
 // Description: ask what the board the user would like to use and set global params
 //		
@@ -411,7 +425,7 @@ string getPlayerName(short playerId) {
 // 
 // Date:	1/27/2017
 //
-// Version: 	1.0
+// Version: 	1.1
 // 
 // Environment: Hardware: i7 
 //              Software: OS: Windows 10; 
@@ -432,7 +446,7 @@ string getPlayerName(short playerId) {
 //
 // History Log:
 //		12/20/05 PB  completed SinkTheFleet main() with board size 
-//		1/31/2017 NP completed v1.0
+//		1/31/2017 NP completed v1.1
 // ------------------------------------------------------------------------------
 
 void setBoardSize() {
@@ -448,7 +462,7 @@ void setBoardSize() {
 // Description:  asks for coordinate
 // and launches a missile onto a ship returns true if hit and false if miss
 //   
-// Programmer:	Norton Pengra
+// Programmer:	Norton Pengra & Tabitha Roemish
 // 
 // Date:	1/27/2017
 //
@@ -472,7 +486,7 @@ void setBoardSize() {
 // Returns:	bool
 //
 // History Log:
-//		1/31/2017 
+//		1/31/2017 NP & TR v1.0 completed
 // ------------------------------------------------------------------------------
 
 bool launchMissile(Player attacker, Player * defender) {
@@ -522,14 +536,13 @@ bool launchMissile(Player attacker, Player * defender) {
 	}
 }
 //---------------------------------------------------------------------------------
-// Function: 	
+// Function: 	populateGrid(Player player)
 //
-// Title:	
+// Title:	Populate Grid
 //
-// Description: 
-//		
+// Description: ask if the user has a file they'd like to load or manually populate
 //   
-// Programmer:	Norton Pengra
+// Programmer:	Norton Pengra & Tabitha Roemish
 // 
 // Date:	1/27/2017
 //
@@ -539,26 +552,26 @@ bool launchMissile(Player attacker, Player * defender) {
 //              Software: OS: Windows 10; 
 //              Compiles under Microsoft Visual C++ 2015
 //
-// Input:	
+// Input:	Y or N from safeChoice prompt
 //
-// Output:	
+// Output:	cout upload error if file does not load
 //
-// Calls: 	
+// Calls: 	clearScreen()
+//			loadFile()
+//			manuallyPopulate()
+//			safeChoice()
+//			saveMenu()
 //
-// Called By:
-//		
-//
-//
-// Parameters:	
-//		
-//		
+// Called By: main()
+//	
+// Parameters:	player: Player Struct
 // 
-// Returns:	
+// Returns:	void
 //
 // History Log:
-//		
+//		1/31/2017 NP & TR completed v1.0
 // ------------------------------------------------------------------------------
-// ask if the user has a file they'd like to load
+
 void populateGrid(Player player) {
 	bool useFile = safeChoice(player.name + ", Would you like to load from a file?") == 'Y';
 	bool loaded = false;
@@ -579,9 +592,9 @@ void populateGrid(Player player) {
 	clearScreen();
 }
 //---------------------------------------------------------------------------------
-// Function: 	
+// Function: 	loadFile(Player player)
 //
-// Title:	
+// Title:	Load File
 //
 // Description: 
 //		
@@ -606,16 +619,14 @@ void populateGrid(Player player) {
 //		
 //
 //
-// Parameters:	
-//		
-//		
+// Parameters:	player: Player Struct
 // 
-// Returns:	
+// Returns:	bool - return false if file is not loaded or user selects N
 //
 // History Log:
 //		
 // ------------------------------------------------------------------------------
-// load a file
+
 bool loadFile(Player player) {
 	ifstream handle;
 	string filepath;
@@ -777,11 +788,11 @@ void generateSave(string filePath, Player player) {
 	handle.close();
 }
 //---------------------------------------------------------------------------------
-// Function: 	
+// Function: 	int indexOf(const char * charArray, char toFind)
 //
-// Title:	
+// Title:	Index Of Integer in Array
 //
-// Description: 
+// Description: find the Index of the array
 //		
 //   
 // Programmer:	Norton Pengra
@@ -794,11 +805,11 @@ void generateSave(string filePath, Player player) {
 //              Software: OS: Windows 10; 
 //              Compiles under Microsoft Visual C++ 2015
 //
-// Input:	
+// Input:	none
 //
-// Output:	
+// Output:	none
 //
-// Calls: 	
+// Calls: 	none
 //
 // Called By:
 //		
@@ -813,7 +824,7 @@ void generateSave(string filePath, Player player) {
 // History Log:
 //		
 // ------------------------------------------------------------------------------
-// find the Index of the array
+
 int indexOf(const char * charArray, char toFind) {
 	int index = 0;
 	while (true) {

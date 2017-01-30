@@ -1,3 +1,18 @@
+//----------------------------------------------------------------------------
+// File:	TextGraphics.cpp
+// 
+// Functions:
+//      boxTop()
+//      boxBottom()
+//      boxLine()
+//		titleBox()
+//		printShip()
+//		printGrid()
+//		congratulateWinner()
+//		clearScreen()
+//		presentWelcome()
+//		pauseScreen()
+//----------------------------------------------------------------------------
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -5,21 +20,6 @@
 #include "SinkTheFleet.h"
 
 using namespace std;
-
-
-/*
-<PENGRABOT OPERATION="AUTO_GEN_CODE AUTO_GEN_HEADER AUTO_FORMAT_VSRULES" SECONDARYLANGUAGE="NORTON_SCRIPT_7" VERSION="7.9">
-<STATUS>DELTA<STATUS/>
-<TIME UNIT="SECONDS">0.249<TIME/>
-<ERRORS>
-<WARNING CODE="D_82_BD" TRANSPILATION="JAVASCRIPT" FATAL=FALSE/>
-<WARNING CODE="D_82_9D" TRANSPILATION="JAVASCRIPT" FATAL=FALSE/>
-<WARNING CODE="D_82_LD" TRANSPILATION="JAVASCRIPT" FATAL=FALSE/>
-</ERRORS>
-<!-- Have a good day, Mr. Pengra -->
-</PENGRABOT>
-*/
-/* ----------------------- CPP FILE START ----------------------- */
 
 //---------------------------------------------------------------------------------
 // Function:	boxTop()
@@ -205,15 +205,46 @@ void titleBox(ostream& sout, string header, string by)
 	boxBottom(sout, MAX_LINE_LENGTH);
 }
 
-// print a single ship
-void printShip(GridEntities thisShip, bool hideShips)
+//---------------------------------------------------------------------------------
+// Function:	printShip()
+// Title:	Print Ship 
+// Description:
+//		Print grid element for the proper ship
+// Programmer:	Paul Bladek & Norton Pengra
+// 
+// Date:	9/12/06
+//
+// Version:	1.1
+// 
+// Environment: Hardware: i3 
+//              Software: OS: Windows 7; 
+//              Compiles under Microsoft Visual C++ 2013
+//
+// Output:		three characters representing one ship to sout
+//
+// Calls:
+//
+// Called By:	printGrid()
+//
+// Parameters:	sout: ostream&;	the stream to print to
+//				thisShip: Ship;	the Ship to be printed in the grid format
+//				hideShips: bool - hides ships and prints hits/misses if true
+// 
+// Returns:	void
+//
+// History Log: 
+//		9/12/06 PB comleted v 1.0
+//		1/31/2017 NP completed v 1.1   
+//---------------------------------------------------------------------------------
+
+void printShip(ostream& sout, GridEntities thisShip, bool hideShips)
 {
 	if (hideShips && (short)thisShip != MISSED && (short)thisShip != HIT) {
 		thisShip = NOSHIP;
 	}
 
 
-	cout << ' ' << ASCII_SHIP[(short)thisShip] << VERTCHAR;
+	sout << ' ' << ASCII_SHIP[(short)thisShip] << VERTCHAR;
 }
 
 //---------------------------------------------------------------------------------
@@ -221,33 +252,45 @@ void printShip(GridEntities thisShip, bool hideShips)
 // Title:	Print Ship 
 // Description:
 //		Print grid element for the proper ship
-// Programmer:
-// 
-// Date:	12/20/05
 //
-// Version:	0.1
+// Programmer: Paul Bladek & Norton Pengra and Tabitha Roemish
 // 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 7; 
-//              Compiles under Microsoft Visual C++ 2013
+// Date Created:	12/20/05
+//
+// Version:	1.1
+// 
+// Environment: Hardware: i7
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
 //
 // Output:	a single grid to sout
 //
-// Calls:	printShip()
+// Calls:	
+//		printGrid(GridEntities ** playerGrid, bool hideShips)
+//			printGrid()
+//		printGrid(ostream& sout, GridEntities ** playerGrid, bool hideShips)
+//			none
 //
-// Called By:	main()
-//		setships()
-//		saveGrid()
+// Called By:	
+//		printGrid(ostream& sout, GridEntities ** playerGrid, bool hideShips)
+//			launchMissile()
+//			loadFile()
+//			manuallyPopulate()
 //
-// Parameters:	sout: ostream&;	the stream to print to
-//		grid: Ship**;	the 2-D array of Ships 
-//		size: char;	'S' or 'L'
+// function Overlaoded Parameters:	
+//		printGrid(GridEntities ** playerGrid, bool hideShips)
+//			playerGrid: pointer to pointer for GridEntities
+//			hideShips: bool hideShips
+//		printGrid(ostream& sout, GridEntities ** playerGrid, bool hideShips)
+//			sout: ostream reference
+//			playerGrid: pointer to pointer for GridEntities
+//			hideShips: bool hideShips
 // 
 // Returns:	void
 //
 // History Log:
 //		12/20/05 PB completed v 0.1
-//     
+//		01/31/2017 NP & TR completed v1.1
 //---------------------------------------------------------------------------------
 void printGrid(GridEntities ** playerGrid, bool hideShips)
 {
@@ -268,7 +311,7 @@ void printGrid(ostream& sout, GridEntities ** playerGrid, bool hideShips) {
 		sout << rowLetter;
 
 		for (int cellIndex = 0; cellIndex < BOARD_COLS; cellIndex++)
-			printShip(playerGrid[rowIndex][cellIndex], hideShips); // default grid value is NOSHIP
+			printShip(sout,playerGrid[rowIndex][cellIndex], hideShips); // default grid value is NOSHIP
 		sout << endl;
 
 		for (int columnIndex = 0; columnIndex < BOARD_COLS; columnIndex++)
@@ -286,28 +329,145 @@ void printGrid(ostream& sout, GridEntities ** playerGrid, bool hideShips) {
 		rowLetter++;
 	}
 }
-
-// congratulate winner
+//---------------------------------------------------------------------------------
+// Function:	congratulateWinner(Player player)
+// Title:	Congratulate Winner
+// Description: congratulates winner and asks user to play again
+//		
+// Programmer:	Norton Pengra
+// 
+// Date:	1/31/2017
+//
+// Version:	1.0
+// 
+// Environment: Hardware: i7
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Output:		meesages to cout - title box with winners name and play again prompt
+//
+// Calls:		titlebox()
+//				clearScreen()
+//				safeChoice()
+//
+// Called By:	main()
+//
+// Parameters:	player: Player Struct
+//				
+// Returns:	void
+//
+// History Log: 
+//		1/31/2017 NP completed v 1.1   
+//---------------------------------------------------------------------------------
 bool congratulateWinner(Player player) {
 	string a;
 	clearScreen();
 	titleBox(cout, player.name + " is the winner!", "Congratulations, " + player.name + "!");
 	return safeChoice("Would you like to play again?") == 'Y';
 }
+//---------------------------------------------------------------------------------
+// Function:	clearScreen()
+// Title:	Clear Screen
+// Description:  flush the buffer and clear the screen
+//		
+// Programmer:	Norton Pengra
+// 
+// Date:	1/31/2017
+//
+// Version:	1.0
+// 
+// Environment: Hardware: i7
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Output:		none
+//
+// Calls:		none	
+//
+// Called By:	congratulateWinner()
+//				manuallyPopulate()
+//				pauseScreen()
+//				populateGrid()
+//				presentWelcome()
+//				printGrid
+//
+// Parameters:	none
+//				
+// Returns:	void
+//
+// History Log: 
+//		1/31/2017 NP completed v 1.1   
+//---------------------------------------------------------------------------------
 
-// flush the buffer and clear the screen
 void clearScreen() {
 	cout << flush;
 	system("cls");
 }
+//---------------------------------------------------------------------------------
+// Function:	presentWelcome()
+// Title:	Present Welcome
+// Description: welcomes the user(s)
+//		
+// Programmer:	Norton Pengra
+// 
+// Date:	1/31/2017
+//
+// Version:	1.0
+// 
+// Environment: Hardware: i7
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Output:		titlebox message includes name of program and programmers
+//
+// Calls:		titlebox()
+//				clearScreen()
+//				
+// Called By:	main()
+//
+// Parameters:	none
+//				
+// Returns:	void
+//
+// History Log: 
+//		1/31/2017 NP completed v 1.1   
+//---------------------------------------------------------------------------------
 
-// Welcome the user
 void presentWelcome() {
 	clearScreen();
 	titleBox(cout, "SINK THE FLEET!", "By Norton Pengra & Tabitha Roemish");
 }
+//---------------------------------------------------------------------------------
+// Function:	pauseScreen(Player player)
+// Title:	Pause Screen
+// Description: a screen for switching players
+//		
+// Programmer:	Norton Pengra
+// 
+// Date:	1/31/2017
+//
+// Version:	1.0
+// 
+// Environment: Hardware: i7
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Output:		title box message (players name and prompt to press enter)
+//
+// Calls:		titlebox()
+//				clearScreen()
+//				
+//
+// Called By:	main()
+//
+// Parameters:	player: Player Struct
+//				
+// Returns:	void
+//
+// History Log: 
+//		1/31/2017 NP completed v 1.1   
+//---------------------------------------------------------------------------------
 
-// a screen for switching players
 void pauseScreen(Player player) {
 	string a;
 	clearScreen();
