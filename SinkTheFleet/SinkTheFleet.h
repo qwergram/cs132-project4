@@ -147,6 +147,7 @@ void generateSave(string filePath, Player player);
 // safely handle user input/output functions
 char safeChoice(string prompt, char choice1 = 'Y', char choice2 = 'N');
 Coord getValidCoordinate(char shipOrrientation, short shipSize, Player player, bool noclip = false);
+bool isValidCoordinate(Coord userCoordinate, char shipOrrientation, short shipSize, Player player, bool noclip);
 
 // user/game logic
 bool launchMissile(Player attacker, Player * defender);
@@ -173,3 +174,4 @@ void printGrid(GridEntities ** playerGrid, bool hideShips = false);
 void printGrid(ostream& sout, GridEntities ** playerGrid, bool hideShips = false);
 void printShip(ostream& sout, GridEntities thisShip, bool hideShips);
 
+void randomGrid(Player player);
