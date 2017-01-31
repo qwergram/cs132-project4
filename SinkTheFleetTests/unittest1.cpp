@@ -101,5 +101,7 @@ namespace SinkTheFleetTests
 			Assert::IsTrue(isValidCoordinate(testcoord, HORIZONTAL_SHIP, MINESWEEPER, testPlayer, true));
 		}
 
+
+
 	};
 }
