@@ -635,6 +635,7 @@ bool loadFile(Player player) {
 	string contents;
 
 	short splitIndex = 0;
+	short linesRead = 0;
 	short gridEntity;
 	short rowIndex;
 	short colIndex;
@@ -643,7 +644,7 @@ bool loadFile(Player player) {
 	getline(cin, filepath);
 	handle.open(filepath);
 	if (handle.is_open()) {
-		while (!handle.eof()) {
+		while (!handle.eof() && linesRead++ < 17) {
 			getline(handle, contents);
 			// 0, 1, 2 == GridEntities, rowIndex, colIndex
 
@@ -660,7 +661,6 @@ bool loadFile(Player player) {
 					// throw exception("needs more work");
 				}
 			}
-
 			splitIndex = 0;
 
 			if (splitContents[0] != 0) { // ignore noship tiles
