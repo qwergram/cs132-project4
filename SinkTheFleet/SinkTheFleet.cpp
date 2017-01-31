@@ -1,11 +1,14 @@
 
+//----------------------------------------------------------------------------
+// File:	SinkTheFleetleet.cpp
+// 
+// Function:
+//      main()
+//----------------------------------------------------------------------------
+
 #include "SinkTheFleet.h"
 
 using namespace std;
-
-
-
-/* ----------------------- CPP FILE START ----------------------- */
 
 // Board size
 short BOARD_ROWS;
@@ -14,8 +17,49 @@ short BOARD_COLS;
 // Players
 Player PLAYER1;
 Player PLAYER2;
+//---------------------------------------------------------------------------------
+// Function:	main()
+// Title:		Game Play
+// Description:
+//				Runs the Sink the Fleet Game
+//
+// Programmer:	Paul Bladek  
+// modified by:	Norton Pengra & Tabitha Roemish
+// 
+// Date created: 12/9/2010
+//
+// Version:		0.6
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//
+// Input:		none
+//
+// Output:		none
+//
+// Calls:		congratulateWinner()
+//				deletePlayer()
+//				initPlayer()
+//				isAlive()
+//				launchMissile()
+//				puaseScreen()
+//				populateGrid()
+//				presentWelcome()
+//				setBoardSize()
+//				main()
+//
+// Called By:	n/a
+//
+// Parameters:	void
+// 
+// Returns:		int -- EXIT_SUCCESS upon successful completion
+//
+// History Log: 
+//				12/9/2010 PB completed v 0.5
+//				1/31/2017	NP & TR completed v0.6
+//---------------------------------------------------------------------------------
 
-// main game loop
 void main() {
 	
 	presentWelcome();
@@ -36,15 +80,12 @@ void main() {
 
 	// start game loop
 	while (true) {
-		// TODO:
-		// or display their own board if "O" typed
-		// or surrender if 'S' typed
-		// ask for coordinates
-
+		
+		
 		pauseScreen(PLAYER1);
 		do {
-			hit = launchMissile(PLAYER1, &PLAYER2);
-			if (!isAlive(PLAYER2)) {
+			hit = launchMissile(PLAYER1, &PLAYER2); // ask for coordinates
+			if (!isAlive(PLAYER2)) { // check if player2 has 0 health points
 				winner = PLAYER1;
 				gameOver = true;
 				break;

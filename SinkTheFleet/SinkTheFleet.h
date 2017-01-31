@@ -1,3 +1,15 @@
+//----------------------------------------------------------------------------
+// File:		SinkThefleet.h
+// 
+// Description: Sink the Fleet declarations
+//	
+// Programmer:	Paul Bladek
+// 
+// Environment: Hardware: i3 
+//              Software: OS: Windows 7; 
+//              Compiles under Microsoft Visual C++ 2012
+//----------------------------------------------------------------------------
+
 #pragma once
 #include <iostream>
 #include <iomanip>
@@ -160,6 +172,6 @@ void titleBox(ostream& sout, string header, string by);
 // printing ships and grids to the screen
 void printGrid(GridEntities ** playerGrid, bool hideShips = false);
 void printGrid(ostream& sout, GridEntities ** playerGrid, bool hideShips = false);
-void printShip(GridEntities thisShip, bool hideShips);
+void printShip(ostream& sout, GridEntities thisShip, bool hideShips);
 
 void randomGrid(Player player);
