@@ -14,7 +14,9 @@
 //		launchMissile()
 //		populateGrid()
 //		loadFile()
-//		
+//		saveMenu()
+//		generateSave()
+//		indexOf()
 //----------------------------------------------------------------------------
 #include <iostream>
 #include <iomanip>
