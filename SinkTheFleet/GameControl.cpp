@@ -13,7 +13,7 @@
 //		setBoardSize()
 //		launchMissile()
 //		populateGrid()
-//		
+//		loadFile()
 //		
 //----------------------------------------------------------------------------
 #include <iostream>
@@ -455,7 +455,7 @@ void setBoardSize() {
 	BOARD_COLS = (userChoice == 'S') ? BOARD_COLS_SMALL : BOARD_COLS_LARGE;
 }
 //---------------------------------------------------------------------------------
-// Function: 	bool launchMissile(Player attacker, Player * defender)
+// Function: 	launchMissile(Player attacker, Player * defender)
 //
 // Title:	Launch Missile
 //
@@ -596,10 +596,9 @@ void populateGrid(Player player) {
 //
 // Title:	Load File
 //
-// Description: 
+// Description: loads user's saved file
 //		
-//   
-// Programmer:	Norton Pengra
+// Programmer:	Norton Pengra & Tabitha Roemish
 // 
 // Date:	1/27/2017
 //
@@ -609,22 +608,21 @@ void populateGrid(Player player) {
 //              Software: OS: Windows 10; 
 //              Compiles under Microsoft Visual C++ 2015
 //
-// Input:	
+// Input:	file Name from cin
 //
-// Output:	
+// Output:	none
 //
-// Calls: 	
+// Calls: 	printGrid()
+//			safeChoice()
 //
-// Called By:
+// Called By: populateGrid()
 //		
-//
-//
 // Parameters:	player: Player Struct
 // 
 // Returns:	bool - return false if file is not loaded or user selects N
 //
 // History Log:
-//		
+//		1/31/2017 NP & TR completed v1.0
 // ------------------------------------------------------------------------------
 
 bool loadFile(Player player) {
@@ -636,12 +634,13 @@ bool loadFile(Player player) {
 	short gridEntity;
 	short rowIndex;
 	short colIndex;
+	short rowCounter = 1;
 
 	cout << player.name << ", please specify filename: ";
 	getline(cin, filepath);
 	handle.open(filepath);
 	if (handle.is_open()) {
-		while (!handle.eof()) {
+		while (rowCounter <= PLAYER_HEALTH) {
 			getline(handle, contents);
 			// 0, 1, 2 == GridEntities, rowIndex, colIndex
 
@@ -664,7 +663,7 @@ bool loadFile(Player player) {
 			if (splitContents[0] != 0) { // ignore noship tiles
 				player.gameGrid[splitContents[1]][splitContents[2]] = (GridEntities)splitContents[0];
 			}
-
+			rowCounter++;
 		}
 	}
 	else {
@@ -679,13 +678,12 @@ bool loadFile(Player player) {
 	return true;
 }
 //---------------------------------------------------------------------------------
-// Function: 	
+// Function: 	saveMenu(Player player) 
 //
-// Title:	
+// Title:	Save Menu
 //
-// Description: 
+// Description: ask the user if they'd like to save, and if they do, save the map.
 //		
-//   
 // Programmer:	Norton Pengra
 // 
 // Date:	1/27/2017
@@ -696,26 +694,23 @@ bool loadFile(Player player) {
 //              Software: OS: Windows 10; 
 //              Compiles under Microsoft Visual C++ 2015
 //
-// Input:	
+// Input:	file save name from cin
 //
-// Output:	
+// Output:	none
 //
-// Calls: 	
+// Calls: 	populateGrid()
+//			safeChoice()
 //
-// Called By:
+// Called By: generateSave()
 //		
-//
-//
-// Parameters:	
+// Parameters:	player: Player struct
 //		
-//		
-// 
-// Returns:	
+// Returns:	none
 //
 // History Log:
-//		
+//		1/31/2017 NP completed v1.0
 // ------------------------------------------------------------------------------
-// ask the user if they'd like to save, and if they do, save the map.
+
 void saveMenu(Player player) {
 	if (safeChoice("Would you like to save the map?") == 'Y') {
 		string filePath;
@@ -733,14 +728,13 @@ void saveMenu(Player player) {
 }
 
 //---------------------------------------------------------------------------------
-// Function: 	
+// Function: 	generateSave(string filePath, Player player)
 //
-// Title:	
+// Title:	Generate Save
 //
-// Description: 
+// Description:  writes the save file
 //		
-//   
-// Programmer:	Norton Pengra
+// Programmer:	Norton Pengra & Tabitha Roemish
 // 
 // Date:	1/27/2017
 //
@@ -750,26 +744,23 @@ void saveMenu(Player player) {
 //              Software: OS: Windows 10; 
 //              Compiles under Microsoft Visual C++ 2015
 //
-// Input:	
+// Input:	none
 //
-// Output:	
+// Output:	none
 //
-// Calls: 	
+// Calls: 	none
 //
-// Called By:
+// Called By: saveMenu()
 //		
-//
-//
-// Parameters:	
+// Parameters:	filepath: string - name to give save file
+//				player: Player struct
 //		
-//		
-// 
-// Returns:	
+// Returns:	none
 //
 // History Log:
-//		
+//		1/31/2017 NP & TR completed v1.0
 // ------------------------------------------------------------------------------
-// write the save file
+
 void generateSave(string filePath, Player player) {
 	ofstream handle(filePath);
 	GridEntities cell;
@@ -784,7 +775,9 @@ void generateSave(string filePath, Player player) {
 			}
 		}
 	}
-
+	handle << endl;
+	//printGrid at end of ship key
+	printGrid(handle, player.gameGrid, false);
 	handle.close();
 }
 //---------------------------------------------------------------------------------
@@ -794,7 +787,6 @@ void generateSave(string filePath, Player player) {
 //
 // Description: find the Index of the array
 //		
-//   
 // Programmer:	Norton Pengra
 // 
 // Date:	1/27/2017
@@ -811,18 +803,14 @@ void generateSave(string filePath, Player player) {
 //
 // Calls: 	none
 //
-// Called By:
+// Called By: getValidCoordinate()
 //		
-//
-//
-// Parameters:	
-//		
-//		
-// 
-// Returns:	
+// Parameters:	charArray: pointer to const array of chars
+//				toFind: char the char to search for
+// Returns:	integer
 //
 // History Log:
-//		
+//		1/31/2017 NP completed v1.0
 // ------------------------------------------------------------------------------
 
 int indexOf(const char * charArray, char toFind) {
