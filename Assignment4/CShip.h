@@ -4,8 +4,6 @@
 //-----------------------------------------------
 #ifndef CSHIP_H
 #define CSHIP_H
-#define private public
-
 #include <iostream>
 using namespace std;
 
@@ -38,41 +36,7 @@ namespace STFleet
 		Ship m_ship;
 	};
 
-
 	ostream& operator<< (ostream& sout, const CShip & ship); //should just call print and return the ostream.
 	istream& operator >> (istream& sin, CShip & ship); //should input either a name or a number and return the istream
-
-
-
-
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif
