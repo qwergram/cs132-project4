@@ -835,13 +835,12 @@ namespace STFGame {
 	{
 		for (short shipIndex = SHIP_RANGES[1]; shipIndex < SHIP_RANGES[2]; shipIndex++)
 		{
-			Coord location;
+			
 			char direction;
 
 			do {
 				srand(time(NULL));
-				location.x = rand() % (BOARD_ROWS - 1) + 1;
-				location.y = rand() % (BOARD_COLS - 1) + 1;
+				CCell location((unsigned short)(rand() % (BOARD_ROWS - 1) + 1), rand() % (BOARD_COLS - 1) + 1);
 				int randomDirection = rand() % 2;
 				direction = (randomDirection == 0) ? HORIZONTAL_SHIP : VERTICAL_SHIP;
 				placeShip(location, direction, shipIndex, player);
