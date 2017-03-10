@@ -27,9 +27,15 @@
     <ClCompile Include="GameControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CCell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SinkTheFleet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CCell.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

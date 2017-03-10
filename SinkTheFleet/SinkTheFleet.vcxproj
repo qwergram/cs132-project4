@@ -146,12 +146,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CCell.cpp" />
     <ClCompile Include="GameControl.cpp" />
     <ClCompile Include="safeio.cpp" />
     <ClCompile Include="SinkTheFleet.cpp" />
     <ClCompile Include="TextGraphics.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CCell.h" />
     <ClInclude Include="SinkTheFleet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
