@@ -17,7 +17,6 @@
 #include <string>
 
 
-using namespace std;
 namespace STFGame {
 	// Board size possibilities
 	const short BOARD_ROWS_SMALL = 8;

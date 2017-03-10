@@ -495,13 +495,14 @@ namespace STFGame {
 
 	bool launchMissile(Player attacker, Player * defender) {
 		short cell;
+		CCell target;
 		string shipName = "ship";
 
 		while (true) {
 			printGrid(defender->gameGrid, true);
 			cout << attacker.name << ", please enter a coordinate: ";
 
-			CCell target = getValidCoordinate(HORIZONTAL_SHIP, HIT, *defender, true);
+			target = getValidCoordinate(HORIZONTAL_SHIP, HIT, *defender, true);
 			cell = (short)defender->gameGrid[target.y][target.x];
 			if (cell <= SHIP_RANGES[1])
 				break;
@@ -835,9 +836,10 @@ namespace STFGame {
 		for (short shipIndex = SHIP_RANGES[1]; shipIndex < SHIP_RANGES[2]; shipIndex++)
 		{
 			char direction;
+			CCell location;
 			do {
 				srand(time(NULL));
-				CCell location((unsigned short)(rand() % (BOARD_ROWS - 1) + 1), rand() % (BOARD_COLS - 1) + 1);
+				location = CCell((unsigned short)(rand() % (BOARD_ROWS - 1) + 1), rand() % (BOARD_COLS - 1) + 1);
 				int randomDirection = rand() % 2;
 				direction = (randomDirection == 0) ? HORIZONTAL_SHIP : VERTICAL_SHIP;
 				placeShip(location, direction, shipIndex, player);
