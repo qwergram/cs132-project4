@@ -27,17 +27,17 @@ namespace STFGame {
 		int x() { return this->m_col; }
 
 		// cast overloads
-		operator string();
+		operator std::string();
 
 		// Required but unused specs
-		void print(ostream & sout) const { sout << this->operator string; }
-		void print() const { this->print(cout); }
-		bool inputCoordinates(istream& sin, char size);
+		void print(std::ostream & sout) const { sout << this->operator std::string; }
+		void print() const { this->print(std::cout); }
+		bool inputCoordinates(std::istream & sin, char size);
 	private:
 		unsigned short m_row;
 		unsigned short m_col;
 	};
 
 	// should just call print and return the ostream.  This does not need to be and should not be a friend.
-	ostream & operator << (ostream & sout, const CCell & cell);
+	std::ostream & operator << (std::ostream & sout, const CCell & cell);
 }
