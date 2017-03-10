@@ -496,25 +496,25 @@ namespace STFGame {
 	bool launchMissile(Player attacker, Player * defender) {
 		short cell;
 		CCell target;
-		string shipName = "ship";
+		std::string shipName = "ship";
 
 		while (true) {
 			printGrid(defender->gameGrid, true);
-			cout << attacker.name << ", please enter a coordinate: ";
+			std::cout << attacker.name << ", please enter a coordinate: ";
 
 			target = getValidCoordinate(HORIZONTAL_SHIP, HIT, *defender, true);
 			cell = (short)defender->gameGrid[target.y][target.x];
 			if (cell <= SHIP_RANGES[1])
 				break;
-			cout << "You have already guessed that position." << endl;
-			getline(cin, shipName);
+			std::cout << "You have already guessed that position." << std::endl;
+			getline(std::cin, shipName);
 		}
 
 		// check if the cell is a ship
 		if (cell < SHIP_RANGES[1] && cell >= SHIP_RANGES[0]) {
 			defender->gameGrid[target.y()][target.x()] = HIT;
 			printGrid(defender->gameGrid, true);
-			cout << attacker.name << " hit ";
+			std::cout << attacker.name << " hit ";
 			defender->playerHealth[cell]--; // = defender.playerHealth[cell] - 1;
 			if (defender->playerHealth[cell] < 1) {
 				cout << "and sunk ";

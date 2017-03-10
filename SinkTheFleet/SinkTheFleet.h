@@ -154,17 +154,17 @@ namespace STFGame {
 	bool congratulateWinner(Player player);
 
 	// prints the top line of a box					
-	void boxTop(ostream& sout, unsigned short length);
+	void boxTop(std::ostream& sout, unsigned short length);
 	// prints the bottom line of a box
-	void boxBottom(ostream& sout, unsigned short length);
+	void boxBottom(std::ostream& sout, unsigned short length);
 	// prints text line of a box
-	void boxLine(ostream& sout, const string& text, unsigned short length, unsigned char alignment = LEFTCHAR, char fillc = ' ');
+	void boxLine(std::ostream& sout, const std::string & text, unsigned short length, unsigned char alignment = LEFTCHAR, char fillc = ' ');
 	// Create a pretty box w/ title
-	void titleBox(ostream& sout, string header, string by);
+	void titleBox(std::ostream& sout, std::string header, std::string by);
 	// printing ships and grids to the screen
 	void printGrid(GridEntities ** playerGrid, bool hideShips = false);
-	void printGrid(ostream& sout, GridEntities ** playerGrid, bool hideShips = false);
-	void printShip(ostream& sout, GridEntities thisShip, bool hideShips);
+	void printGrid(std::ostream& sout, GridEntities ** playerGrid, bool hideShips = false);
+	void printShip(std::ostream& sout, GridEntities thisShip, bool hideShips);
 
 	void randomGrid(Player player);
 }
