@@ -16,7 +16,7 @@ namespace STFGame {
 	class CCell {
 	public:
 		CCell(unsigned short row = 0, unsigned short col = 0) : m_row(row), m_col(col) {}
-		CCell(char row = 'A', unsigned short col = 0) : m_row(row - (int)'A'), m_col(col - (int)'0') {}
+		CCell(char row, unsigned short col) : m_row(row - (int)'A'), m_col(col - (int)'0') {}
 
 		// accessors/mutators
 		unsigned short getRow() { return this->m_row; }

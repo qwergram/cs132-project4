@@ -511,7 +511,7 @@ namespace STFGame {
 
 		// check if the cell is a ship
 		if (cell < SHIP_RANGES[1] && cell >= SHIP_RANGES[0]) {
-			defender->gameGrid[target.y][target.x] = HIT;
+			defender->gameGrid[target.y()][target.x()] = HIT;
 			printGrid(defender->gameGrid, true);
 			cout << attacker.name << " hit ";
 			defender->playerHealth[cell]--; // = defender.playerHealth[cell] - 1;
@@ -530,7 +530,7 @@ namespace STFGame {
 			return true;
 		}
 		else {
-			defender->gameGrid[target.y][target.x] = MISSED;
+			defender->gameGrid[target.y()][target.x()] = MISSED;
 			printGrid(defender->gameGrid, true);
 			cout << attacker.name << " missed!\n<enter> to continue" << endl;
 
