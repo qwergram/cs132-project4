@@ -12,7 +12,7 @@
 #include <string>
 #include "SinkTheFleet.h"
 
-using namespace std;
+using namespace STFGame;
 
 //---------------------------------------------------------------------------------
 // Function: 	Coord getValidCoordinate(char shipOrrientation, short shipSize, 

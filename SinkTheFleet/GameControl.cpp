@@ -26,7 +26,7 @@
 #include <string>
 #include "SinkTheFleet.h"
 
-using namespace std;
+using namespace STFGame;
 
 
 //---------------------------------------------------------------------------------
@@ -373,7 +373,7 @@ GridEntities ** allocMemory() {
 
 		for (short cellIndex = 0; cellIndex < BOARD_COLS; ++cellIndex) {
 			// set it to NOSHIP
-			row[cellIndex] = NOSHIP;
+			row[cellIndex] = GridEntities::NOSHIP;
 		}
 		grid[rowIndex] = row;
 	}

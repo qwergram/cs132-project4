@@ -8,7 +8,7 @@
 
 #include "SinkTheFleet.h"
 
-using namespace std;
+using namespace STFGame;
 
 // Board size
 short BOARD_ROWS;

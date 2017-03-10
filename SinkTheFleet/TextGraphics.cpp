@@ -19,7 +19,7 @@
 #include <string>
 #include "SinkTheFleet.h"
 
-using namespace std;
+using namespace STFGame;
 
 //---------------------------------------------------------------------------------
 // Function:	boxTop()
