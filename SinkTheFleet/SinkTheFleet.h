@@ -130,8 +130,8 @@ namespace STFGame {
 
 	// Grid population related functions
 	void populateGrid(Player player);
-	void placeShip(Coord coordinates, char orrientation, short shipId, Player player, short size = -1);
-	void removeShip(Coord coordinates, char orrientation, short shipId, Player player);
+	void placeShip(CCell coordinates, char orrientation, short shipId, Player player, short size = -1);
+	void removeShip(CCell coordinates, char orrientation, short shipId, Player player);
 
 	// save file operations
 	void saveMenu(Player player);
@@ -139,13 +139,13 @@ namespace STFGame {
 
 	// safely handle user input/output functions
 	char safeChoice(string prompt, char choice1 = 'Y', char choice2 = 'N');
-	Coord getValidCoordinate(char shipOrrientation, short shipSize, Player player, bool noclip = false);
-	bool isValidCoordinate(Coord userCoordinate, char shipOrrientation, short shipSize, Player player, bool noclip);
+	CCell getValidCoordinate(char shipOrrientation, short shipSize, Player player, bool noclip = false);
+	bool isValidCoordinate(CCell userCoordinate, char shipOrrientation, short shipSize, Player player, bool noclip);
 
 	// user/game logic
 	bool launchMissile(Player attacker, Player * defender);
 	bool isAlive(Player player);
-	bool emptyWaters(Coord coords, Coord offsets, char orrientation, short shipSize, Player player);
+	bool emptyWaters(CCell coords, CCell offsets, char orrientation, short shipSize, Player player);
 
 	// clear screen
 	void clearScreen();

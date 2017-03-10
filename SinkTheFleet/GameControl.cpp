@@ -25,6 +25,7 @@
 #include <ctime>
 #include <string>
 #include "SinkTheFleet.h"
+#include "CCell.h"
 
 using namespace STFGame;
 
@@ -109,7 +110,7 @@ void manuallyPopulate(Player player) {
 	short shipSize;
 	char shipOrrientation;
 	bool shipOkay;
-	Coord coordinates;
+	CCell coordinates('A', 0);
 
 	for (short shipId = SHIP_RANGES[0]; shipId < SHIP_RANGES[1]; ) {
 		clearScreen();
@@ -180,7 +181,7 @@ void manuallyPopulate(Player player) {
 //		1/31/2017 NP & TR v1 completed
 // ------------------------------------------------------------------------------
 
-void removeShip(Coord coordinates, char orrientation, short shipId, Player player) {
+void removeShip(CCell coordinates, char orrientation, short shipId, Player player) {
 	placeShip(coordinates, orrientation, NOSHIP, player, player.playerHealth[shipId]);
 }
 //---------------------------------------------------------------------------------
@@ -221,16 +222,16 @@ void removeShip(Coord coordinates, char orrientation, short shipId, Player playe
 //		1/27/2017 NP & TR v1 completed
 // ------------------------------------------------------------------------------
 
-void placeShip(Coord coordinates, char orrientation, short shipId, Player player, short size) {
+void placeShip(CCell coordinates, char orrientation, short shipId, Player player, short size) {
 	size = (size < 0) ? player.playerHealth[shipId] : size;
 	if (orrientation == HORIZONTAL_SHIP) {
 		for (short colIndex = 0; colIndex < size; colIndex++) {
-			player.gameGrid[coordinates.y][coordinates.x + colIndex] = (GridEntities)shipId;
+			player.gameGrid[coordinates.y()][coordinates.x() + colIndex] = (GridEntities)shipId;
 		}
 	}
 	else {
 		for (short rowIndex = 0; rowIndex < size; rowIndex++) {
-			player.gameGrid[coordinates.y + rowIndex][coordinates.x] = (GridEntities)shipId;
+			player.gameGrid[coordinates.y() + rowIndex][coordinates.x()] = (GridEntities)shipId;
 		}
 	}
 }
@@ -494,7 +495,7 @@ void setBoardSize() {
 // ------------------------------------------------------------------------------
 
 bool launchMissile(Player attacker, Player * defender) {
-	Coord target;
+	CCell target;
 	short cell;
 	string shipName = "ship";
 
