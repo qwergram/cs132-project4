@@ -80,7 +80,7 @@ namespace STFGame {
 	};
 
 	// string equivs of ships
-	const string SHIPS[GRID_ENTITIES_COUNT] = {
+	const std::string SHIPS[GRID_ENTITIES_COUNT] = {
 		"noship",
 		"Minesweeper",
 		"Submarine",
@@ -98,7 +98,7 @@ namespace STFGame {
 	struct Player {
 		GridEntities ** gameGrid;		 										// This player's grid w/ oponent's hits on it
 		short playerHealth[GRID_ENTITIES_COUNT] = { 0, 2, 3, 3, 4, 5, 0, 0 };   // Player's remaning health of each ship
-		string name;														    // This player's name
+		std::string name;														    // This player's name
 	};
 
 
@@ -118,7 +118,7 @@ namespace STFGame {
 	void main();
 	void presentWelcome();
 	void setBoardSize();
-	string getPlayerName(short playerId);
+	std::string getPlayerName(short playerId);
 	GridEntities ** allocMemory();
 	bool loadFile(Player player);
 	void manuallyPopulate(Player player);
@@ -134,10 +134,10 @@ namespace STFGame {
 
 	// save file operations
 	void saveMenu(Player player);
-	void generateSave(string filePath, Player player);
+	void generateSave(std::string filePath, Player player);
 
 	// safely handle user input/output functions
-	char safeChoice(string prompt, char choice1 = 'Y', char choice2 = 'N');
+	char safeChoice(std::string prompt, char choice1 = 'Y', char choice2 = 'N');
 	CCell getValidCoordinate(char shipOrrientation, short shipSize, Player player, bool noclip = false);
 	bool isValidCoordinate(CCell userCoordinate, char shipOrrientation, short shipSize, Player player, bool noclip);
 
