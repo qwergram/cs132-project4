@@ -104,7 +104,7 @@ namespace STFGame {
 	// ------------------------------------------------------------------------------
 
 	void manuallyPopulate(Player player) {
-		string shipName;
+		std::string shipName;
 		GridEntities shipEnum;
 		short shipSize;
 		char shipOrrientation;
@@ -124,7 +124,7 @@ namespace STFGame {
 			shipOrrientation = safeChoice(player.name + ", Enter " + shipName + " orrientation", VERTICAL_SHIP, HORIZONTAL_SHIP);
 
 			// get location
-			cout << player.name << ", Enter " << shipName << " coordinates: ";
+			std::cout << player.name << ", Enter " << shipName << " coordinates: ";
 			coordinates = getValidCoordinate(shipOrrientation, shipSize, player);
 
 			// place ship
@@ -411,10 +411,10 @@ namespace STFGame {
 	// History Log:
 	//		1/31/2017 NP v1 completed
 	// ------------------------------------------------------------------------------
-	string getPlayerName(short playerId) {
-		string playerName;
-		cout << "What is player #" << playerId << "'s name?" << endl << "Name: ";
-		getline(cin, playerName);
+	std::string getPlayerName(short playerId) {
+		std::string playerName;
+		std::cout << "What is player #" << playerId << "'s name?" << std::endl << "Name: ";
+		std::getline(std::cin, playerName);
 		return playerName;
 	}
 	//---------------------------------------------------------------------------------
@@ -517,25 +517,25 @@ namespace STFGame {
 			std::cout << attacker.name << " hit ";
 			defender->playerHealth[cell]--; // = defender.playerHealth[cell] - 1;
 			if (defender->playerHealth[cell] < 1) {
-				cout << "and sunk ";
+				std::cout << "and sunk ";
 				shipName = SHIPS[cell];
 			}
-			cout << defender->name << "'s " << shipName << '!' << "\n<enter> to continue" << endl;
+			std::cout << defender->name << "'s " << shipName << '!' << "\n<enter> to continue" << std::endl;
 
-			getline(cin, shipName);
+			std::getline(std::cin, shipName);
 			return true;
 		}
 		else if (cell == SHIP_RANGES[1]) {
-			cout << "You already guessed that position\n<enter> to continue" << endl;
-			getline(cin, shipName);
+			std::cout << "You already guessed that position\n<enter> to continue" << std::endl;
+			std::getline(std::cin, shipName);
 			return true;
 		}
 		else {
 			defender->gameGrid[target.y()][target.x()] = MISSED;
 			printGrid(defender->gameGrid, true);
-			cout << attacker.name << " missed!\n<enter> to continue" << endl;
+			std::cout << attacker.name << " missed!\n<enter> to continue" << std::endl;
 
-			getline(cin, shipName);
+			std::getline(std::cin, shipName);
 			return false;
 		}
 	}
@@ -585,7 +585,7 @@ namespace STFGame {
 				if (loaded)
 					break;
 				else
-					cout << player.name << "'s board was unable to be loaded." << endl;
+					std::cout << player.name << "'s board was unable to be loaded." << std::endl;
 			}
 			else {
 				manuallyPopulate(player);
@@ -630,9 +630,9 @@ namespace STFGame {
 	// ------------------------------------------------------------------------------
 
 	bool loadFile(Player player) {
-		ifstream handle;
-		string filepath;
-		string contents;
+		std::ifstream handle;
+		std::string filepath;
+		std::string contents;
 
 		short splitIndex = 0;
 		short linesRead = 0;
@@ -641,8 +641,8 @@ namespace STFGame {
 		short colIndex;
 
 
-		cout << player.name << ", please specify filename: ";
-		getline(cin, filepath);
+		std::cout << player.name << ", please specify filename: ";
+		std::getline(std::cin, filepath);
 		handle.open(filepath);
 		if (handle.is_open()) {
 			while (!handle.eof() && linesRead++ < PLAYER_HEALTH) {
@@ -657,7 +657,7 @@ namespace STFGame {
 						splitIndex++;
 					}
 					else {
-						string int_as_str = contents.substr(lineIndex, 1);
+						std::string int_as_str = contents.substr(lineIndex, 1);
 						splitContents[splitIndex] = atoi(int_as_str.c_str());
 						// throw exception("needs more work");
 					}
@@ -716,10 +716,10 @@ namespace STFGame {
 
 	void saveMenu(Player player) {
 		if (safeChoice("Would you like to save the map?") == 'Y') {
-			string filePath;
-			string fileType = ".shp";
-			cout << "Please type the relative file path: ";
-			getline(cin, filePath);
+			std::string filePath;
+			std::string fileType = ".shp";
+			std::cout << "Please type the relative file path: ";
+			std::getline(std::cin, filePath);
 
 			// add .shp extension if it doesn't already have it
 			filePath = (equal(fileType.rbegin(), fileType.rend(), filePath.rbegin())) ? filePath : filePath + fileType;
@@ -764,8 +764,8 @@ namespace STFGame {
 	//		1/31/2017 NP & TR completed v1.0
 	// ------------------------------------------------------------------------------
 
-	void generateSave(string filePath, Player player) {
-		ofstream handle(filePath);
+	void generateSave(std::string filePath, Player player) {
+		std::ofstream handle(filePath);
 		GridEntities cell;
 
 		// go through the ships and save their coordinates
@@ -774,11 +774,11 @@ namespace STFGame {
 			for (short colIndex = 0; colIndex < BOARD_COLS; colIndex++) {
 				cell = player.gameGrid[rowIndex][colIndex];
 				if ((short)cell > 0) {
-					handle << (short)cell << ' ' << rowIndex << ' ' << colIndex << endl;
+					handle << (short)cell << ' ' << rowIndex << ' ' << colIndex << std::endl;
 				}
 			}
 		}
-		handle << endl;
+		handle << std::endl;
 		//printGrid at end of ship key
 		printGrid(handle, player.gameGrid, false);
 		handle.close();
@@ -825,7 +825,7 @@ namespace STFGame {
 				}
 				index++;
 			}
-			catch (exception) {
+			catch (std::exception) {
 				return -1;
 			}
 		}
