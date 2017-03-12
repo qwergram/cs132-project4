@@ -62,14 +62,14 @@ using namespace STFGame;
 
 
 // check if a coordinate is valid
-bool isValidCoordinate(Coord userCoordinate, char shipOrrientation, short shipSize, Player player, bool noclip) {
-	Coord offsets;
+bool isValidCoordinate(CCell userCoordinate, char shipOrrientation, short shipSize, Player player, bool noclip) {
+	CCell offsets(
+		(unsigned short)((!noclip && shipOrrientation == HORIZONTAL_SHIP) ? userCoordinate.x() + shipSize : userCoordinate.x() + (short)noclip),
+		(!noclip && shipOrrientation == VERTICAL_SHIP) ? userCoordinate.y() + shipSize : userCoordinate.y() + (short)noclip
+	);
 	
-	offsets.x = (!noclip && shipOrrientation == HORIZONTAL_SHIP) ? userCoordinate.x + shipSize : userCoordinate.x + (short)noclip;
-	offsets.y = (!noclip && shipOrrientation == VERTICAL_SHIP) ? userCoordinate.y + shipSize : userCoordinate.y + (short)noclip;
-
 	// check if within bounds
-	if (offsets.x <= BOARD_COLS && userCoordinate.x >= 0 && offsets.y <= BOARD_ROWS && userCoordinate.y >= 0)
+	if (offsets.x() <= BOARD_COLS && userCoordinate.x() >= 0 && offsets.y() <= BOARD_ROWS && userCoordinate.y() >= 0)
 		return (noclip || emptyWaters(userCoordinate, offsets, shipOrrientation, shipSize, player));
 	
 	return false;

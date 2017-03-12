@@ -15,6 +15,7 @@
 #include <iomanip>
 #include <sstream>
 #include <string>
+#include "CCell.h"
 
 
 namespace STFGame {
